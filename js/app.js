@@ -516,6 +516,7 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
 
     $q.all(promises).then(function(greeting) {
       $rootScope.showLoader = false;
+      $('[data-toggle="tooltip"]').tooltip();
     }, function(reason) {
       $rootScope.showLoader = false;
     }, function(update) {
