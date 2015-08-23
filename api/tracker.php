@@ -581,7 +581,7 @@ function calculateTick($time) {
   *     - User status message (and changes)
   */
 function track() {
-	global $DBH, $wa, $tracking_ticks, $tracking_numbers, $whatsspyNotificatons, $crawl_time, $whatsappAuth, $pollCount, $lastseenCount, $statusMsgCount, $picCount, $request_error_queue, $continue_tracker_session;
+	global $DBH, $wa, $tracking_ticks, $tracking_numbers, $whatsspyNotificatons, $crawl_time, $whatsappAuth, $pollCount, $lastseenCount, $statusMsgCount, $picCount, $request_error_queue, $continue_tracker_session, $whatsspyPerformanceMode;
 
 	$crawl_time = time();
 	setupWhatsappHandler();
@@ -597,15 +597,26 @@ function track() {
 		$crawl_time = time();
 		// Socket read
 		$tick_start = microtime(true);
-		$wa->pollMessage();
-		$tick_end = microtime(true);
-		tracker_log('[poll #'.$pollCount.'] Tracking '. count($tracking_numbers) . ' users.       '."\r", true, false);
+		if($whatsspyPerformanceMode === true) {
+			while ((microtime(true) - $tick_start < 1.0) && $wa->pollMessage() === true) {
+				echo microtime(true) - $tick_start."\r\n"; 
+				tracker_debug('Socket read called with poll time: ' . microtime(true) - $tick_start);
+			}
+		} else {
+			$wa->pollMessage();
+		}
 
+		$tick_end = microtime(true);
+		$poll_took = number_format($tick_end - $tick_start, 4);
+		list($usec, $sec) = explode(' ', microtime()); // split the microtime on space with two tokens $usec and $sec.
+		$usec = str_replace("0.", ".", number_format($usec, 4)); // remove the leading '0.' from usec
+		tracker_log("[poll #$pollCount] Tracking " . count($tracking_numbers) . " users (poll took $poll_took)", true, false);
+		
 		//	1) LAST SEEN PRIVACY
 		//
 		// Check lastseen
 		if($pollCount % calculateTick($tracking_ticks['lastseen']) == 0) {
-			tracker_log('[lastseen #'.$lastseenCount.'] Checking '. count($tracking_numbers) . ' users.               ');
+			tracker_log('[lastseen #'.$lastseenCount.'] Checking '. count($tracking_numbers) . ' users.');
 			foreach ($tracking_numbers as $number) {
 				$wa->sendGetRequestLastSeen($number);
 			}
@@ -662,14 +673,15 @@ function track() {
 		//
 		// Keep connection alive (<300s)
 		if($pollCount % calculateTick($tracking_ticks['keep-alive']) == 0) {
-			tracker_log('[keep-alive] Ping sent.'."\r", true, false);
+			tracker_log('[keep-alive] Ping sent.', true, false);
 			$wa->sendPing();
 		}
 		// usage of 39512f5ea29c597f25483697471ac0b00cbb8088359c219e98fa8bdaf7e079fa
 		$pollCount++;
-		// Draw the socket read a draw
-		if(($tick_end - $tick_start) < 1.0) {
-			sleep(1);
+		// Sleep if no more messages could be processed.
+		if ($poll_took < 1.0) {
+			$sleeping = 1.0 - $poll_took;
+			usleep($sleeping * 1000000);
 		}
 	}
 }

@@ -131,20 +131,25 @@ switch($_GET['whatsspy']) {
 			$notify_profilepic = ($_GET['notify_profilepic'] == 'true' ? true : false);
 			$notify_privacy = ($_GET['notify_privacy'] == 'true' ? true : false);
 			$notify_timeline = ($_GET['notify_timeline'] == 'true' ? true : false);
+			$notification_sound = preg_replace("/[^a-zA-Z0-9\.\-]*/", "", $_GET['notification_sound']);
+			if($notification_sound == '') {
+				$notification_sound = null;
+			}
 
 			$groups = explode(',', ($_GET['groups'] == '' ? null : $_GET['groups']));
 
 
 			$name = ($_GET['name'] != '' ? $_GET['name'] : null); // do not use htmlentities, AngularJS will protect us
 			$update = $DBH->prepare('UPDATE accounts
-										SET name = :name, notify_status = :notify_status, notify_statusmsg = :notify_statusmsg, notify_profilepic = :notify_profilepic, notify_privacy = :notify_privacy, notify_timeline = :notify_timeline WHERE id = :id;');
+										SET name = :name, notify_status = :notify_status, notify_statusmsg = :notify_statusmsg, notify_profilepic = :notify_profilepic, notify_privacy = :notify_privacy, notify_timeline = :notify_timeline, notification_sound = :notification_sound WHERE id = :id;');
 			$update->execute(array(':id' => $number, 
 								   ':name' => $name, 
 								   ':notify_status' => (int)$notify_status,
 								   ':notify_statusmsg' => (int)$notify_statusmsg,
 								   ':notify_profilepic' => (int)$notify_profilepic,
 								   ':notify_privacy' => (int)$notify_privacy,
-								   ':notify_timeline' => (int)$notify_timeline));
+								   ':notify_timeline' => (int)$notify_timeline,
+								   ':notification_sound' => $notification_sound));
 			// Update groups
 			$select_group = $DBH->prepare('SELECT gid FROM accounts_to_groups WHERE number = :number');
 			$select_group -> execute(array(':number' => $number));
@@ -166,6 +171,19 @@ switch($_GET['whatsspy']) {
 			echo json_encode(['success' => true, 'number' => $number]);
 		} else {
 			echo json_encode(['error' => 'No name or correct phone number supplied!', 'code' => 400]);
+		}
+		break;
+	/**
+	  *		Update the name of a group
+	  */
+	case 'changeGroupName':
+		requireAuth();
+		// We need the exact ID: this means no 003106 (only 316...)
+		if(isset($_GET['gid']) && is_numeric($_GET['gid']) && isset($_GET['name'])) {
+			$result = changeGroupName($_GET['gid'], $_GET['name'], true);
+			echo json_encode($result);
+		} else {
+			echo json_encode(['error' => 'No Gid or name provided!', 'code' => 400]);
 		}
 		break;
 	/**
@@ -277,6 +295,15 @@ switch($_GET['whatsspy']) {
 		}
 		break;
 	/**
+	  *		Get a list of MP3 files in the notification folder.
+	  */
+	case 'getNotificationOptions':
+		requireAuth();
+		chdir("../sound/");
+		$notification_sounds = array_values(glob("*.mp3", GLOB_NOSORT));
+		echo json_encode($notification_sounds);
+		break;
+	/**
 	  *		Get a profile picture of a account that is being tracked
 	  */
 	case 'getProfilePic':
@@ -329,7 +356,7 @@ switch($_GET['whatsspy']) {
 			$result_config = $select_config->fetch(PDO::FETCH_ASSOC);
 			
 
-			$select = $DBH->prepare('SELECT n.id, n.name, n."read_only_token", n."notify_status", n."notify_statusmsg", n."notify_profilepic", n."notify_privacy", n."notify_timeline", n."lastseen_privacy", n."profilepic_privacy", n."statusmessage_privacy", n.verified, 
+			$select = $DBH->prepare('SELECT n.id, n.name, n."read_only_token", n."notify_status", n."notify_statusmsg", n."notify_profilepic", n."notify_privacy", n."notify_timeline", n."lastseen_privacy", n."profilepic_privacy", n."statusmessage_privacy", n.verified, n.notification_sound, 
 											smh.status as "last_statusmessage",
 											pph.hash as "profilepic", pph.changed_at as "profilepic_updated",
 									(SELECT (CASE WHEN ("end" IS NULL) THEN start ELSE "end" END) FROM status_history WHERE number = n.id ORDER BY start ASC LIMIT 1) "since",
@@ -658,7 +685,7 @@ switch($_GET['whatsspy']) {
 
 		if($return_statuses){
 			// Get user stats
-			$select = $DBH->prepare('SELECT  x.sid, x.start, x."end", (CASE WHEN (x."end" IS NULL) THEN NULL ELSE ROUND(EXTRACT(\'epoch\' FROM (x."end" - x.start))) END) as "timediff", a.id, a.name, x.status, x.start, a.notify_timeline
+			$select = $DBH->prepare('SELECT  x.sid, x.start, x."end", (CASE WHEN (x."end" IS NULL) THEN NULL ELSE ROUND(EXTRACT(\'epoch\' FROM (x."end" - x.start))) END) as "timediff", a.id, a.name, x.status, x.start, a.notify_timeline, a.notification_sound
 										FROM status_history x 
 										LEFT JOIN accounts a ON a.id = x.number
 										WHERE x.status = true 

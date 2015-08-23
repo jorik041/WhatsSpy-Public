@@ -382,6 +382,10 @@ header {
 	text-align: right;
 }
 
+.group-name {
+	cursor: pointer;
+}
+
 .jumbotron {
 	line-height: 25px;
 }

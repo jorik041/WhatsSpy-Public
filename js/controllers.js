@@ -13,6 +13,7 @@ angular.module('whatsspyControllers', [])
 	// Edit name
 	$scope.editContact = {'id': null, 'name': null, 'groups': null, 'read_only_token': null, 'notify_status': null, 'notify_statusmsg': null, 'notify_profilepic': null, 'notify_timeline': null};
 
+
 	// New group
 	$scope.newGroup = {'name': null};
 	$scope.filterGroup = null;
@@ -80,6 +81,32 @@ angular.module('whatsspyControllers', [])
 			});
 	}
 
+	$scope.playNotificationSound = function(sound) {
+		$scope.notificationPlayer = document.getElementById("notification");
+		$scope.notificationSource = document.getElementById("notificationSource");
+		$scope.notificationSource.src = "sound/"+sound;
+		$scope.notificationPlayer.load();
+		$scope.notificationPlayer.play();
+	}
+
+	$scope.changeGroupName = function($group) {
+		var newGroupName = prompt("Enter the new name for this group:", $group.name);
+		if(newGroupName != null && newGroupName != $group.name) {
+			$http({method: 'GET', url: 'api/?whatsspy=changeGroupName&gid=' + $group.gid + '&name='+newGroupName}).
+				success(function(data, status, headers, config) {
+					if(data.success == true) {
+						alertify.success("Saved new groupname!");
+						$scope.refreshContent();
+					} else {
+						alertify.error(data.error);
+					}
+				}).
+				error(function(data, status, headers, config) {
+					alertify.error("Could not contact the server.");
+				});
+		}
+	}
+
 	$scope.deleteAccountConfirm = function(contactId) {
 		var confirm = window.confirm('Are you sure you want to delete this Account?');
 		if(confirm == true) {
@@ -123,6 +150,7 @@ angular.module('whatsspyControllers', [])
 		$scope.editContact.notify_profilepic = $contact.notify_profilepic;
 		$scope.editContact.notify_privacy = $contact.notify_privacy;
 		$scope.editContact.notify_timeline = $contact.notify_timeline;
+		$scope.editContact.notification_sound = $contact.notification_sound;
 		$scope.editContact.groups = $contact.groups;
 	}
 
@@ -148,7 +176,7 @@ angular.module('whatsspyControllers', [])
 		    groupArray = groupArray.substring(0, groupArray.length - 1);
 		}
 
-		$http({method: 'GET', url: 'api/?whatsspy=updateAccount&number=' + $scope.editContact.id + '&name=' + encodeURIComponent($scope.editContact.name) + '&notify_status=' + $scope.editContact.notify_status + '&notify_statusmsg=' + $scope.editContact.notify_statusmsg + '&notify_profilepic=' + $scope.editContact.notify_profilepic + '&notify_privacy='+ $scope.editContact.notify_privacy +'&notify_timeline=' + $scope.editContact.notify_timeline + '&groups=' + groupArray}).
+		$http({method: 'GET', url: 'api/?whatsspy=updateAccount&number=' + $scope.editContact.id + '&name=' + encodeURIComponent($scope.editContact.name) + '&notify_status=' + $scope.editContact.notify_status + '&notify_statusmsg=' + $scope.editContact.notify_statusmsg + '&notify_profilepic=' + $scope.editContact.notify_profilepic + '&notify_privacy='+ $scope.editContact.notify_privacy +'&notify_timeline=' + $scope.editContact.notify_timeline + '&notification_sound=' + $scope.editContact.notification_sound +  '&groups=' + groupArray}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
 					alertify.success("Contact updated");
@@ -882,6 +910,7 @@ angular.module('whatsspyControllers', [])
 	$scope.filterGroup = null;
 
 	$scope.notificationPlayer = document.getElementById("notification");
+	$scope.notificationSource = document.getElementById("notificationSource");
 	$scope.notifyAnySound = false;
 	$scope.showTrackerInfo = true;
 
@@ -1016,7 +1045,14 @@ angular.module('whatsspyControllers', [])
 	$scope.notifyForObj = function($obj) {
 		if(($scope.notifyAnySound == true || $obj.notify_timeline == true) && $filter('numberFilter')([$obj], $scope.filterPhonenumber, $scope.filterName, $scope.filterGroup).length  != 0) {
 			try {
+				console.log($obj);
 				$scope.showDesktopNotification($obj);
+				if($obj.notification_sound != null) {
+					$scope.notificationSource.src = "sound/"+$obj.notification_sound;
+				} else {
+					$scope.notificationSource.src = "sound/default.mp3";
+				}
+				$scope.notificationPlayer.load();
 				$scope.notificationPlayer.play();
 			} catch(e) {
 				console.log(e);

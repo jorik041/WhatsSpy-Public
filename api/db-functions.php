@@ -250,6 +250,17 @@ function checkDBMigration($DBH) {
 								8);
 	}
 
+	if($version == 8) {
+		/**
+		  *		Database option added in 1.5.7
+		  *		- Notification sound
+		  */
+		$version = doMigration($DBH, 
+								'ALTER TABLE accounts
+									ADD COLUMN notification_sound character varying(255) DEFAULT \'default.mp3\';', 
+								9);
+	}
+
 }
 
 

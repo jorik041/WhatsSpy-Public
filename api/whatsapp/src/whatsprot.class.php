@@ -50,7 +50,7 @@ class WhatsProt
     protected $loginStatus;             // Holds the login status.
     protected $mediaFileInfo = array(); // Media File Information
     protected $mediaQueue = array();    // Queue for media message nodes
-    protected $messageCounter = 1;      // Message counter for auto-id.
+    protected $messageCounter = 0;      // Message counter for auto-id.
     protected $iqCounter = 1;
     protected $messageQueue = array();  // Queue for received messages.
     protected $name;                    // The user name.
@@ -63,7 +63,7 @@ class WhatsProt
     protected $writer;                  // An instance of the BinaryTreeNodeWriter class.
     protected $messageStore;
     protected $nodeId = array();
-    protected $loginTime;
+    protected $messageId;
     protected $timeout;
     public    $reader;                  // An instance of the BinaryTreeNodeReader class.
 
@@ -2099,10 +2099,7 @@ class WhatsProt
      */
     protected function createMsgId()
     {
-        $msgid = $this->messageCounter;
-        $this->messageCounter++;
-
-        return $this->loginTime . "-" . $msgid;
+        return $this->messageId . dechex($this->messageCounter++);
     }
 
     /**
@@ -2278,7 +2275,7 @@ class WhatsProt
                 $this->phoneNumber
             ));
         $this->sendAvailableForChat();
-        $this->loginTime = time();
+        $this->messageId = substr(base64_encode(mcrypt_create_iv(64, MCRYPT_DEV_URANDOM)), 0, 12);
 
         return true;
     }

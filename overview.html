@@ -566,6 +566,15 @@
 	    					<span class="glyphicon glyphicon-remove red" aria-hidden="true" data-ng-show="editContact.notify_timeline == false"></span>
 	    					 Show timeline notifications (if open)
 	    				</button>
+	    				<br />
+						<div class="input-group col-xs-12">
+							<div class="input-group-addon"><span class="glyphicon glyphicon-music" aria-hidden="true"></span></div>
+							<select class="form-control" ng-model="editContact.notification_sound" ng-options="sound for sound in notificationSounds"></select>
+							<div class="input-group-addon">
+								<span class="glyphicon glyphicon-play whatsspy-copy-token" aria-hidden="true"  data-ng-click="playNotificationSound(editContact.notification_sound)"></span>
+							</div>
+						</div>
+						<small>Notification sound used in the timeline for this user.</small>
 				    </div>
 		    	</div>
 		    </div>
@@ -601,7 +610,7 @@
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-sm-12">
-									<h2 class="panel-title"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{group.name}}</h2>
+									<h2 class="panel-title group-name" data-ng-click="changeGroupName(group);"><span class="glyphicon glyphicon-tag" aria-hidden="true"></span> {{group.name}}</h2>
 								</div>
 							</div>
 						</div>

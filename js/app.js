@@ -147,6 +147,16 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
     return deferred.promise;
   }
 
+  $scope.getNotificationSounds = function() {
+    $http({method: 'GET', url: 'api/?whatsspy=getNotificationOptions'}).
+      success(function(data, status, headers, config) {
+        $rootScope.notificationSounds = data;
+      }).
+      error(function(data, status, headers, config) {
+        alertify.error("Could not contact the server for notification sounds.");
+      });
+  }
+
   $rootScope.getAccountById = function(id) {
     for (var i = $rootScope.accounts.length - 1; i >= 0; i--) {
       if($rootScope.accounts[i].id == id) {
@@ -482,16 +492,17 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
     $rootScope.showLoader = true;
     var promises = [];
     promises[0] = $rootScope.getAccounts();
+    promises[1] = $scope.getNotificationSounds();
 
     if($rootScope.help == null) {
-      promises[1] = $rootScope.getAbout();
+      promises[2] = $rootScope.getAbout();
     }
 
     if($rootScope.inStatsPage == true) {
-      promises[2] = $rootScope.loadGlobalStats('global_stats');
-      promises[3] = $rootScope.loadGlobalStats('user_status_analytics_user');
-      promises[4] = $rootScope.loadGlobalStats('user_status_analytics_time');
-      promises[5] = $rootScope.loadGlobalStats('top_usage_users');
+      promises[3] = $rootScope.loadGlobalStats('global_stats');
+      promises[4] = $rootScope.loadGlobalStats('user_status_analytics_user');
+      promises[5] = $rootScope.loadGlobalStats('user_status_analytics_time');
+      promises[6] = $rootScope.loadGlobalStats('top_usage_users');
     }
     // Load any new status
     if(Object.keys($rootScope.accountData).length > 0 && slack == false) {

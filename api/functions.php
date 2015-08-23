@@ -133,12 +133,19 @@ function cleanSecondCounts($data) {
 
 /**
   *		General log function.
+  *		$rewriteSpaces fill a line with atleast x spaces if the msg is shorter than 60 chars.
   */
-function tracker_log($msg, $date = true, $newline = true) {
+function tracker_log($msg, $date = true, $newline = true, $carriagereturn = true, $rewriteSpaces = 50) {
 	if($date) {
 		echo '('.date('Y-m-d H:i:s').') ';
 	}
 	echo $msg;
+	if($rewriteSpaces - strlen($msg) > 0 && $carriagereturn) {
+		echo str_repeat(" ", $rewriteSpaces - strlen($msg));
+	}
+	if($carriagereturn) {
+		echo "\r";
+	}
 	if($newline) {
 		echo "\n";
 	}
@@ -194,6 +201,10 @@ function checkConfig() {
 							 'onPresenceUnavailableLagFase1' => -12,
 							 'onPresenceUnavailableLagFase2' => -8,
 							 'onPresenceUnavailableLagFase3' => -5];
+	}
+
+	if($whatsspyPerformanceMode === null) {
+		$whatsspyPerformanceMode = false;
 	}
 
 	if($notice) {
@@ -312,6 +323,29 @@ function removeAccount($number) {
 	$delete = $DBH->prepare('DELETE FROM accounts
 								WHERE id = :id;');
 	$delete->execute(array(':id' => $number));
+}
+
+function changeGroupName($gid, $newName, $array_result = false) {
+	global $DBH;
+	// Check before update
+	$check = $DBH->prepare('SELECT 1 FROM groups WHERE "name"=:name');
+	$check->execute(array(':name'=> $newName));
+	if($check -> rowCount() == 0) {
+		$update = $DBH->prepare('UPDATE groups SET name=:name WHERE gid=:gid;');
+		$update->execute(array(':gid' => $gid, ':name' => $newName));
+		if($array_result) {
+			return ['success' => true];
+		} else {
+			return true;
+		}
+	} else {
+		// Group name already exists
+		if($array_result) {
+			return ['success' => false, 'error' => 'Group already exists!'];
+		} else {
+			return false;
+		}
+	}
 }
 
 /**

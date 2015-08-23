@@ -273,7 +273,7 @@ CREATE TABLE whatsspy_config (
 );
 
 INSERT INTO whatsspy_config (db_version)
-    VALUES (8);
+    VALUES (9);
 
 
 ALTER TABLE public.whatsspy_config OWNER TO whatsspy;
@@ -370,6 +370,9 @@ ALTER TABLE ONLY lastseen_privacy_history
 
 ALTER TABLE ONLY profilepicture_history
     ADD CONSTRAINT profilepicture_history_pkey PRIMARY KEY (number, changed_at);
+
+ALTER TABLE accounts
+    ADD COLUMN notification_sound character varying(255) DEFAULT 'default.mp3';
 
 
 --

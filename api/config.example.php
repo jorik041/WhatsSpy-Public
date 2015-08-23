@@ -100,6 +100,13 @@ $whatsspyHeuristicOptions = ['onPresenceAvailableLag' => -2,
 							 'onPresenceUnavailableLagFase2' => -8,
 							 'onPresenceUnavailableLagFase3' => -5];
 
+// By default the tracker processes only one incoming message per second. This works fine with a reasonable group of contacts (~500)
+// However, if you get more than one event from WhatsApp per second this option might be more viable.
+// By setting this option to true increases the processing volume of messages coming from WhatsApp, 
+// but also severly decreases accuracy of the timed events such as Last seen privacy check, Profile picture retrieval etc.
+// EXPERIMENTAL							 
+$whatsspyPerformanceMode = false;
+
 // Enable/disable advanced controls to start/shutdown and update the tracker from within the GUI.
 // You must first shutdown your tracker before using these start/stop controls (because of the changed uid)
 // EXPERIMENTAL
