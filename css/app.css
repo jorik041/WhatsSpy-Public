@@ -360,7 +360,7 @@ header {
 	position: absolute;
 	left: 9px;
 	top: 5px;
-	z-index: 9999;
+	z-index: 40;
 }
 
 .whatsspy-account-responsive-small {
