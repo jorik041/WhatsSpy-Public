@@ -863,6 +863,8 @@ class Smileys {
         'LARGE_BLUE_DIAMOND'                                           => 0x1F537, // Smiley 843
         'SMALL_ORANGE_DIAMOND'                                         => 0x1F538, // Smiley 844
         'SMALL_BLUE_DIAMOND'                                           => 0x1F539, // Smiley 845
+        'MIDDLEFINGER'                                                 => 0x1F595, // Smiley xxx
+        'VULCAN_SALUTE'                                                => 0x1F596, // Smiley xxx
     );
     private $listKeys = array();
 

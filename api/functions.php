@@ -135,7 +135,7 @@ function cleanSecondCounts($data) {
   *		General log function.
   *		$rewriteSpaces fill a line with atleast x spaces if the msg is shorter than 60 chars.
   */
-function tracker_log($msg, $date = true, $newline = true, $carriagereturn = true, $rewriteSpaces = 50) {
+function tracker_log($msg, $date = true, $newline = true, $carriagereturn = true, $rewriteSpaces = 60) {
 	if($date) {
 		echo '('.date('Y-m-d H:i:s').') ';
 	}

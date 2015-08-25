@@ -78,27 +78,36 @@ pcntl_signal(SIGTSTP, "signal_handler");
   * 	------------------------------------------------------------------------------
   */
 
-// General last seen privacy check
-function onGetRequestLastSeen($mynumber, $from, $id, $seconds) {
+function handleLastSeenPrivacyChange($from, $enabled) {
 	global $DBH, $wa, $whatsspyNotificatons;
 	$number = explode("@", $from)[0];
 	$privacy_status = $DBH->prepare('SELECT "lastseen_privacy" FROM accounts WHERE "id"=:number');
 	$privacy_status -> execute(array(':number' => $number));
 	$row  = $privacy_status -> fetch();
-	if($row['lastseen_privacy'] == true) {
+	if($row['lastseen_privacy'] == true && $enabled == false) {
 		$update = $DBH->prepare('UPDATE accounts
 								SET "lastseen_privacy" = false WHERE "id" = :number;');
 		if(checkDatabaseInsert($update->execute(array(':number' => $number)))) {
-			tracker_log('  -[lastseen] '.$number.' has the lastseen privacy option DISABLED! ');
+			tracker_log('  -[lastseen] '.$number.' has the lastseen privacy option now DISABLED!');
 			sendNotification($DBH, $wa, $whatsspyNotificatons, 'user', ['title' => ':name changed the lastseen privacy option', 
 																		'description' => ':name has the lastseen privacy option to DISABLED!.',
+																		'number' => $number,
+																		'notify_type' => 'privacy']);
+		}
+	} else if($row['lastseen_privacy'] == false && $enabled == true) {
+		$update = $DBH->prepare('UPDATE accounts
+								SET "lastseen_privacy" = true WHERE "id" = :number;');
+		if(checkDatabaseInsert($update->execute(array(':number' => $number)))) {
+			tracker_log('  -[lastseen] '.$number.' has the lastseen privacy option now ENABLED! ');
+			sendNotification($DBH, $wa, $whatsspyNotificatons, 'user', ['title' => ':name changed the lastseen privacy option', 
+																		'description' => ':name has the lastseen privacy option to ENABLED!',
 																		'number' => $number,
 																		'notify_type' => 'privacy']);
 		}
 	}
 }
 
-function handPresenceChange($number, $type, $DBH, $wa, $crawl_time, $whatsspyNotificatons) {
+function handlePresenceChange($number, $type, $DBH, $wa, $crawl_time, $whatsspyNotificatons) {
 	global $whatsspyHeuristicOptions;
 	$status = ($type == 'available' ? true : false);
 	$latest_status = $DBH->prepare('SELECT "sid", "status", ROUND(EXTRACT(\'epoch\' FROM "start")) as "start" FROM status_history WHERE "number"=:number AND "end" IS NULL');
@@ -182,14 +191,19 @@ function handPresenceChange($number, $type, $DBH, $wa, $crawl_time, $whatsspyNot
 function onPresenceAvailable($username, $from) {
 	global $DBH, $wa, $crawl_time, $whatsspyNotificatons;
 	$number = explode("@", $from)[0];
-	handPresenceChange($number, 'available', $DBH, $wa, $crawl_time, $whatsspyNotificatons);
+	handlePresenceChange($number, 'available', $DBH, $wa, $crawl_time, $whatsspyNotificatons);
 }
 
 function onPresenceUnavailable($username, $from, $last) {
 	// Ignore last
 	global $DBH, $wa, $crawl_time, $whatsspyNotificatons;
+	if($last == 'deny') {
+		handleLastSeenPrivacyChange($from, true);
+	} else {
+		handleLastSeenPrivacyChange($from, false);
+	}
 	$number = explode("@", $from)[0];
-	handPresenceChange($number, 'unavailable', $DBH, $wa, $crawl_time, $whatsspyNotificatons);
+	handlePresenceChange($number, 'unavailable', $DBH, $wa, $crawl_time, $whatsspyNotificatons);
 }
 
 // retrieve profile pics
@@ -377,31 +391,7 @@ function onSyncResultNumberCheck($result) {
 function onGetError($mynumber, $from, $id, $data, $errorType = null) {
 	global $DBH, $wa, $pollCount, $whatsspyNotificatons;
 	if ($errorType == 'getlastseen') {
-        if ($data->getAttribute("code") == '405' || 
-        	$data->getAttribute("code") == '403' || 
-        	$data->getAttribute("code") == '401') {
-        	// Lastseen privacy error:
-        	$number = explode("@", $from)[0];
-	        $privacy_status = $DBH->prepare('SELECT "lastseen_privacy" FROM accounts WHERE "id"=:number');
-			$privacy_status -> execute(array(':number' => $number));
-			$row  = $privacy_status -> fetch();
-			if($row['lastseen_privacy'] == false) {
-				$update = $DBH->prepare('UPDATE accounts
-											SET "lastseen_privacy" = true WHERE "id" = :number;');
-				if(checkDatabaseInsert($update->execute(array(':number' => $number)))) {
-					tracker_log('  -[lastseen] '.$number.' has the lastseen privacy option to ENABLED! ');
-					sendNotification($DBH, $wa, $whatsspyNotificatons, 'user', ['title' => ':name changed the lastseen privacy option', 
-																				'description' => ':name has the lastseen privacy option to ENABLED!',
-																				'number' => $number,
-																				'notify_type' => 'privacy']);
-				}
-			}
-        } else if($data->getAttribute("code") == '404') {
-        	tracker_log('  -[lastseen] cannot determine lastseen, ignoring request.');
-        } else {
-        	tracker_log('  -[lastseen] unknown error for '.$number.'. ');
-        	print_r($data);
-        }
+        handleLastSeenPrivacyChange($from, true);
     } else if ($errorType == 'getprofilepic') {
     	if ($data->getAttribute("code") == '405' || 
         	$data->getAttribute("code") == '403' || 
@@ -508,7 +498,6 @@ function setupWhatsappHandler() {
 	// Setup new Whatsapp session
 	// change the "false" to "true" if you want debug information about the WhatsApp connection.
 	$wa = new WhatsProt($whatsappAuth['number'], "WhatsApp", $whatsappAuth['debug']);
-	$wa->eventManager()->bind('onGetRequestLastSeen', 'onGetRequestLastSeen');
 	$wa->eventManager()->bind('onGetError', 'onGetError');
 	$wa->eventManager()->bind('onDisconnect', 'onDisconnect');
 	$wa->eventManager()->bind("onPresenceAvailable", "onPresenceAvailable");
@@ -576,7 +565,7 @@ function calculateTick($time) {
   *		CONTINIOUS TRACKING
   *		Tracking:
   *		- User status changes to track if a user is online/offline
-  *		- User lastseen (privacy options)
+  *			- User lastseen (privacy options) (attached to online/offline status)
   *		- User profile pictures (and changes)
   *     - User status message (and changes)
   */
@@ -611,19 +600,9 @@ function track() {
 		list($usec, $sec) = explode(' ', microtime()); // split the microtime on space with two tokens $usec and $sec.
 		$usec = str_replace("0.", ".", number_format($usec, 4)); // remove the leading '0.' from usec
 		tracker_log("[poll #$pollCount] Tracking " . count($tracking_numbers) . " users (poll took $poll_took)", true, false);
-		
-		//	1) LAST SEEN PRIVACY
-		//
-		// Check lastseen
-		if($pollCount % calculateTick($tracking_ticks['lastseen']) == 0) {
-			tracker_log('[lastseen #'.$lastseenCount.'] Checking '. count($tracking_numbers) . ' users.');
-			foreach ($tracking_numbers as $number) {
-				$wa->sendGetRequestLastSeen($number);
-			}
-			$lastseenCount++;
-		}
 
-		//	2) STATUS MESSAGE (and privacy)
+
+		//	1) STATUS MESSAGE (and privacy)
 		//
 		// Check status message 
 		if($pollCount % calculateTick($tracking_ticks['statusmsg']) == 0) {
@@ -634,7 +613,7 @@ function track() {
 			$statusMsgCount++;
 		}
 
-		//	3) PROFILE PICTURE (and privacy)
+		//	2) PROFILE PICTURE (and privacy)
 		//
 		// Check profile picture
 		if($pollCount % calculateTick($tracking_ticks['profile-pic']) == 0) {
@@ -645,14 +624,14 @@ function track() {
 			$picCount++;
 		}
 
-		//	4) DATABASE ACCOUNT REFRESH
+		//	3) DATABASE ACCOUNT REFRESH
 		//
 		// Check user database and refresh user set every hour but with a offset of 80 seconds.
 		if($pollCount % calculateTick($tracking_ticks['refresh-db']) == calculateTick($tracking_ticks['refresh-db']-80)) {
 			retrieveTrackingUsers(true);
 		}
 
-		//  5) SOCKET RESET AND LOGIN
+		//  4) SOCKET RESET AND LOGIN
 		//
 		// Disconnect and reconnect with whatsapp to prevent dead tracker
 		if($pollCount % calculateTick($tracking_ticks['reset-socket']) == calculateTick($tracking_ticks['reset-socket']-40)) {
@@ -660,7 +639,7 @@ function track() {
 			retrieveTrackingUsers(false);
 		}
 
-		//	6) DATABASE ACCOUNT VERIFY CHECK
+		//	5) DATABASE ACCOUNT VERIFY CHECK
 		//
 		// Verify any freshly inserted accounts and check if there really whatsapp users.
 		// Check everey 5 minutes.
@@ -669,7 +648,7 @@ function track() {
 			verifyTrackingUsers();
 		}
 
-		//	7) WHATSAPP PING
+		//	6) WHATSAPP PING
 		//
 		// Keep connection alive (<300s)
 		if($pollCount % calculateTick($tracking_ticks['keep-alive']) == 0) {
