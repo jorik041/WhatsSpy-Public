@@ -162,7 +162,7 @@ function tracker_debug($msg, $date = true, $newline = true) {
   *		Check if the user's config is up to standards and attempt to (temp) fix this.
   */
 function checkConfig() {
-	global $whatsappAuth, $whatsspyNotificatons, $whatsspyAdvControls, $whatsspyErrorHandling, $whatsspyHeuristicOptions;
+	global $whatsappAuth, $whatsspyNotificatons, $whatsspyAdvControls, $whatsspyErrorHandling, $whatsspyHeuristicOptions, $whatsspyPerformanceMode;
 
 	$notice = false;
 
