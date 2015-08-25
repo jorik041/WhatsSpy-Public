@@ -92,7 +92,7 @@ angular.module('whatsspyControllers', [])
 	$scope.changeGroupName = function($group) {
 		var newGroupName = prompt("Enter the new name for this group:", $group.name);
 		if(newGroupName != null && newGroupName != $group.name) {
-			$http({method: 'GET', url: 'api/?whatsspy=changeGroupName&gid=' + $group.gid + '&name='+newGroupName}).
+			$http({method: 'GET', url: 'api/?whatsspy=changeGroupName&gid=' + $group.gid + '&name='+encodeURIComponent(newGroupName)}).
 				success(function(data, status, headers, config) {
 					if(data.success == true) {
 						alertify.success("Saved new groupname!");
