@@ -358,7 +358,7 @@
 										          	<span data-ng-show="number.lastseen_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger label-full-width">contacts*</span>
 													<span data-ng-show="number.lastseen_privacy == false" class="label label-success label-full-width">everyone</span>
 													
-													<small><span data-ng-show="accountData[number.id].user.lastseen_changed_privacy != null">changed to <strong>{{accountData[number.id].user.lastseen_changed_privacy | privacy}}</strong><br /> at {{accountData[number.id].user.lastseen_changed_privacy_updated | staticDatetime}}*</span></small>
+													<small><span data-ng-show="accountData[number.id].user.lastseen_changed_privacy != null">changed to <strong>{{accountData[number.id].user.lastseen_changed_privacy | privacy}}</strong><br /> at {{accountData[number.id].user.lastseen_changed_privacy_updated | staticDatetime}}</span></small>
 												</td>
 										        </tr>
 										        <tr>
@@ -382,7 +382,7 @@
 										      </tbody>
 										    </table>
 										    <small>
-										    	<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Checked every 2 hours. First privacy change is the tracker detecting a stricter privacy seting.
+										    	<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Profile picture and status message are checked every 2 hours.
 										    	<br />
 										    	<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Assuming this user does not have the tracker number in his contact list. If this is the case 'contacts only' will be interpreted as 'everyone' in this view.
 										    </small>
