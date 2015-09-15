@@ -21,8 +21,8 @@ $identityExists = file_exists("src/wadata/id.$username.dat");
 // Create a instance of WhastPort.
 $w = new WhatsProt($username, '', $debug);
 
-if (!$identityExists)
-{
+//if (!$identityExists)
+//{
   echo "\n\nType sms or voice: ";
   $option = fgets(STDIN);
 
@@ -44,11 +44,11 @@ if (!$identityExists)
     echo $e->getMessage() . "\n";
     exit(0);
   }
-} else {
-  try {
-    $result = $w->checkCredentials();
-  } catch (Exception $e) {
-    echo $e->getMessage() . "\n";
-    exit(0);
-  }
-}
+//} else {
+//  try {
+//    $result = $w->checkCredentials();
+//  } catch (Exception $e) {
+//    echo $e->getMessage() . "\n";
+//    exit(0);
+//  }
+//}
