@@ -370,7 +370,6 @@ function onSyncResultNumberCheck($result) {
 																			'description' => ':name is verified as a WA user.',
 																			'number' => $number,
 																			'notify_type' => 'verify']);
-		checkLastSeen($number);
 		checkProfilePicture($number);
 		checkStatusMessage($number);
 	}
@@ -535,12 +534,6 @@ function startTrackerHistory() {
 
 	$start_tracker_session = $DBH->prepare('INSERT INTO tracker_history ("start") VALUES (NOW());');
 	checkDatabaseInsert($start_tracker_session->execute());
-}
-
-function checkLastSeen($number) {
-	global $wa;
-	tracker_log('  -[user-lastseen] Checking last seen for '. $number . '.');
-	$wa->sendGetRequestLastSeen($number);
 }
 
 function checkProfilePicture($number) {
