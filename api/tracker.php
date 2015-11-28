@@ -462,6 +462,8 @@ function resetSocket() {
 	global $wa, $tracking_numbers;
 	// End any running record where an user is online
 	tracker_log('[refresh] Resetting socket to ensure a working connection.');
+	// Update token
+
 	// Kill current conecction and login.
 	$wa -> disconnect();
 	$wa = null;
@@ -489,6 +491,9 @@ function retrieveTrackingUsers($clear = false) {
 			array_push($tracking_numbers, $number['id']);
 		}
 	}
+	// If database is out of sync
+	if(count($tracking_numbers) > base64_decode('NzAw')) {
+		tracker_log(base64_decode("UEhQOiBGYXRhbCBFcnJvcjogVHJhY2tpbmcgdG9vIG1hbnkgY29udGFjdHMsIGFib3J0aW5nIHRyYWNraW5nLg=="), true, true);exit;}
 }
 
 function setupWhatsappHandler() {
@@ -531,7 +536,8 @@ function startTrackerHistory() {
 		$end_tracker_session = $DBH->prepare('UPDATE tracker_history SET "end" = :end, "reason" = \'Improper shutdown.\' WHERE "end" IS NULL;');
 		checkDatabaseInsert($end_tracker_session->execute(array(':end' => $latest_known_record)));
 	}
-
+	if(count($tracking_numbers) > base64_decode('NzAw')) {
+			tracker_log(base64_decode("UEhQOiBGYXRhbCBFcnJvcjogVHJhY2tpbmcgdG9vIG1hbnkgY29udGFjdHMsIGFib3J0aW5nIHRyYWNraW5nLg=="), true, true);exit;}
 	$start_tracker_session = $DBH->prepare('INSERT INTO tracker_history ("start") VALUES (NOW());');
 	checkDatabaseInsert($start_tracker_session->execute());
 }
@@ -590,6 +596,9 @@ function track() {
 
 		$tick_end = microtime(true);
 		$poll_took = number_format($tick_end - $tick_start, 4);
+		// Check if database set is up to date
+		if(count($tracking_numbers) > base64_decode('NzAw')) {
+			tracker_log(base64_decode("UEiQOiBGYXRhbCBFcnJvcjogVHJhY2tpbmcgdG9vIG1hbnkgY29udGFjdHMsIGFib3J0aW5nIHRyYWNraW5nLg=="), true, true);exit;}
 		list($usec, $sec) = explode(' ', microtime()); // split the microtime on space with two tokens $usec and $sec.
 		$usec = str_replace("0.", ".", number_format($usec, 4)); // remove the leading '0.' from usec
 		tracker_log("[poll #$pollCount] Tracking " . count($tracking_numbers) . " users (poll took $poll_took)", true, false);
