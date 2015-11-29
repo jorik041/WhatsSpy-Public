@@ -516,7 +516,7 @@ function setupWhatsappHandler() {
 }
 
 function startTrackerHistory() {
-	global $DBH;
+	global $DBH, $tracking_numbers;
 	// Start tracker sessions and check if any fragmentation exists
 	$tracker_session_check = $DBH->prepare('SELECT 1 FROM tracker_history WHERE "end" IS NULL');
 	$tracker_session_check -> execute();
