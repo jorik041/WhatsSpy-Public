@@ -18,9 +18,6 @@ angular.module('whatsspyControllers', [])
 	$scope.newGroup = {'name': null};
 	$scope.filterGroup = null;
 
-	// Javascript page setup call
-	$('[data-toggle="tooltip"]').tooltip();
-
 	$scope.$on('$routeChangeStart', function(next, current) { 
 		// Dump loaded data, this causes why to long load times when the user goes back to this page.
 		$rootScope.accountData = [];
@@ -49,7 +46,7 @@ angular.module('whatsspyControllers', [])
           }
       }).
       error(function(data, status, headers, config) {
-        alertify.error('An error occured, please check your configuration.');
+        alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
         $rootScope.error = true;
       });
 	}
@@ -69,7 +66,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=setContactInactive&number=' + contactId}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("+" + data.number + " set inactive!");
+					alertify.success("+" + data.number + $filter('translate')('CONTROLLER_ACCOUNT_INACTIVE'));
 					$('#editName').modal('hide');
 					$scope.refreshContent();
 				} else {
@@ -77,7 +74,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -95,20 +92,20 @@ angular.module('whatsspyControllers', [])
 			$http({method: 'GET', url: 'api/?whatsspy=changeGroupName&gid=' + $group.gid + '&name='+encodeURIComponent(newGroupName)}).
 				success(function(data, status, headers, config) {
 					if(data.success == true) {
-						alertify.success("Saved new groupname!");
+						alertify.success($filter('translate')('CONTROLLER_GROUP_SAVE'));
 						$scope.refreshContent();
 					} else {
 						alertify.error(data.error);
 					}
 				}).
 				error(function(data, status, headers, config) {
-					alertify.error("Could not contact the server.");
+					alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 				});
 		}
 	}
 
 	$scope.deleteAccountConfirm = function(contactId) {
-		var confirm = window.confirm('Are you sure you want to delete this Account?');
+		var confirm = window.confirm($filter('translate')('CONTROLLER_ACCOUNT_DEL'));
 		if(confirm == true) {
 			$scope.deleteAccount(contactId);
 		} 
@@ -118,7 +115,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=deleteContact&number=' + contactId}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("+" + data.number + " removed!");
+					alertify.success("+" + data.number + $filter('translate')('CONTROLLER_ACCOUNT_REMOVED'));
 					$('#editName').modal('hide');
 					$scope.refreshContent();
 				} else {
@@ -126,7 +123,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -179,7 +176,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=updateAccount&number=' + $scope.editContact.id + '&name=' + encodeURIComponent($scope.editContact.name) + '&notify_status=' + $scope.editContact.notify_status + '&notify_statusmsg=' + $scope.editContact.notify_statusmsg + '&notify_profilepic=' + $scope.editContact.notify_profilepic + '&notify_privacy='+ $scope.editContact.notify_privacy +'&notify_timeline=' + $scope.editContact.notify_timeline + '&notification_sound=' + $scope.editContact.notification_sound +  '&groups=' + groupArray}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("Contact updated");
+					alertify.success($filter('translate')('CONTROLLER_ACCOUNT_UPDATED'));
 					$('#editName').modal('hide');
 					$scope.resetObject($scope.editContact);
 					$scope.refreshContent(true);
@@ -188,7 +185,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -204,7 +201,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=addContact&number=' + $scope.newContact.number + '&countrycode=' + $scope.newContact.countryCode + '&name=' + encodeURIComponent($scope.newContact.name) + '&groups=' + groupArray}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("Contact added to WhatsSpy. Tracking will start in 5-10 minutes.");
+					alertify.success($filter('translate')('CONTROLLER_ACCOUNT_ADDED'));
 					$('#addNumber').modal('hide');
 					$scope.newContact.number = null;
 					$scope.newContact.name = null;
@@ -214,7 +211,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -222,7 +219,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=addGroup&name=' + encodeURIComponent($scope.newGroup.name)}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("New group added.");
+					alertify.success($filter('translate')('CONTROLLER_GROUP_ADD'));
 					$scope.resetObject($scope.newGroup);
 					$rootScope.refreshContent(true);
 				} else {
@@ -230,7 +227,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -238,14 +235,14 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=deleteGroup&gid=' + gid}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("Group removed.");
+					alertify.success($filter('translate')('CONTROLLER_GROUP_DEL'));
 					$rootScope.refreshContent(true);
 				} else {
 					alertify.error(data.error);
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -269,7 +266,7 @@ angular.module('whatsspyControllers', [])
 		$http({method: 'GET', url: 'api/?whatsspy=updateConfig&account_show_timeline_length=' + $rootScope.config.account_show_timeline_length + '&account_show_timeline_tracker=' + $rootScope.config.account_show_timeline_tracker}).
 			success(function(data, status, headers, config) {
 				if(data.success == true) {
-					alertify.success("Configuration updated");
+					alertify.success($filter('translate')('CONTROLLER_CONFIG_UPDATE'));
 					$('#managePerformance').modal('hide');
 					$scope.refreshContent(false);
 				} else {
@@ -277,7 +274,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 
@@ -405,13 +402,13 @@ angular.module('whatsspyControllers', [])
 	// A month is between 28 and 32 days
 	var interval = period.end - period.start;
 	if (interval > 86340000 && interval < 86460000) {
-		$scope.graphWindow = 'day';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_DAY_FULL');
 	} else if (interval > 601200000 && interval < 608400000) {
-		$scope.graphWindow = 'week';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_WEEK_FULL');
 	} else if (interval > 2419200000 && interval < 2764800000) {
-		$scope.graphWindow = 'month';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_MONTH_FULL');
 	} else {
-		$scope.graphWindow = 'custom';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_CUSTOM_FULL');
 	}
 
 	if (p.s.year == p.e.year) {
@@ -474,7 +471,7 @@ angular.module('whatsspyControllers', [])
 
 		//var fromDate = moment().subtract($rootScope.accountData[$number.id].status_length, 'days');
 
-		groups.add({id: 0, content: 'History view: <br />' + $rootScope.accountData[$number.id].status_length + ' day(s)'});
+		groups.add({id: 0, content: $filter('translate')('CONTROLLER_TIMELINE_HISTORY') + ' <br />' + $rootScope.accountData[$number.id].status_length + ' ' + $filter('translate')('CONTROLLER_TIMELINE_DAYS')});
 		// Ignore empty sets
 		if($rootScope.accountData[$number.id].status != null) {
 			// Add user statusses
@@ -487,11 +484,11 @@ angular.module('whatsspyControllers', [])
 				items.add({
 					id: 'status-'+y,
 					group: 0,
-					content: '<strong>Online</strong><br />' + startDate.format('HH:mm:ss') + '<br />' + endDate.format('HH:mm:ss'),
+					content: '<strong>'+$filter('translate')('CONTROLLER_TIMELINE_ONLINE')+'</strong><br />' + startDate.format('HH:mm:ss') + '<br />' + endDate.format('HH:mm:ss'),
 					style: 'font-size:11px; line-height: 1;',
 					start: startDate.valueOf(),
 					end: endDate.valueOf(),
-					title: 'Duration: ' + $filter('timeFormat')(Math.round((endDate - startDate)/1000)) + '.',
+					title: $filter('translate')('CONTROLLER_TIMELINE_DURATION')+' ' + $filter('timeFormat')(Math.round((endDate - startDate)/1000)) + '.',
 					type: 'box'
 				});
 			}
@@ -552,9 +549,6 @@ angular.module('whatsspyControllers', [])
 		$rootScope.inComparePage = false;
 	});
 
-	// Javascript page setup call
-	$('[data-toggle="tooltip"]').tooltip();
-
 	$scope.isNumberInComparison = function(id) {
 		for (var i = 0; i < $scope.comparedAccountsIds.length; i++) {
 			if($scope.comparedAccountsIds[i] == id) {
@@ -566,7 +560,7 @@ angular.module('whatsspyControllers', [])
 
 	$scope.addUserToComparison = function($number) {
 		if($scope.isNumberInComparison($number.id)) {
-			alertify.error($number.name + " is already in the comparison!");
+			alertify.error($number.name + $filter('translate')('CONTROLLER_COMPARISON_ALREADY_IN'));
 			if($scope.toggleBatchInsert == true) {
 				$scope.totalBatchProgress++;
 			}
@@ -733,13 +727,13 @@ angular.module('whatsspyControllers', [])
 	// A month is between 28 and 32 days
 	var interval = period.end - period.start;
 	if (interval > 86340000 && interval < 86460000) {
-		$scope.graphWindow = 'day';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_DAY_FULL');
 	} else if (interval > 601200000 && interval < 608400000) {
-		$scope.graphWindow = 'week';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_WEEK_FULL');
 	} else if (interval > 2419200000 && interval < 2764800000) {
-		$scope.graphWindow = 'month';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_MONTH_FULL');
 	} else {
-		$scope.graphWindow = 'custom';
+		$scope.graphWindow = $filter('translate')('CONTROLLER_TIME_CUSTOM_FULL');
 	}
 
 	if (p.s.year == p.e.year) {
@@ -813,11 +807,11 @@ angular.module('whatsspyControllers', [])
 						id: 'status-'+$number.id+'-'+y,
 						group: x,
 						className: 'item'+itemClass,
-						content: '<strong>Online</strong><br />' + startDate.format('HH:mm:ss') + '<br />' + endDate.format('HH:mm:ss'),
+						content: '<strong>'+$filter('translate')('CONTROLLER_TIMELINE_ONLINE')+'</strong><br />' + startDate.format('HH:mm:ss') + '<br />' + endDate.format('HH:mm:ss'),
 						style: 'font-size:11px; line-height: 1;',
 						start: startDate.valueOf(),
 						end: endDate.valueOf(),
-						title: 'Duration: ' + $filter('timeFormat')(Math.round((endDate - startDate)/1000)) + '.',
+						title: $filter('translate')('CONTROLLER_TIMELINE_DURATION')+' ' + $filter('timeFormat')(Math.round((endDate - startDate)/1000)) + '.',
 						type: 'box'
 					});
 				}
@@ -920,6 +914,7 @@ angular.module('whatsspyControllers', [])
 		$scope.refreshContent(null);
 	});
 
+
 	$scope.showActivityTimeline = true;
 	$scope.showStatusTimeline = true;
 
@@ -985,35 +980,35 @@ angular.module('whatsspyControllers', [])
 		// Create body
 		var body = '';
 		if($obj.type == undefined) {
-			body = $obj.name + ' is now online.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_ONLINE');
 		} else if($obj.type == 'statusmsg') {
-			body = $obj.name + ' has a new status message: ' + $obj['msg_status'] + '.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_STATUSMSG') + $obj['msg_status'] + '.';
 		} else if($obj.type == 'profilepic') {
-			body = $obj.name + ' has a new profile picture.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_PROFPIC');
 			icon = $rootScope.getImageURL($obj.hash);
 		} else if($obj.type == 'lastseen_privacy') {
-			var privacy_setting = 'everybody';
+			var privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PIRV_EVERY');
 			if($obj.lastseen_privacy == true) {
-				privacy_setting = 'contacts or nobody';
+				privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_CONTACTS');
 			}
-			body = $obj.name + ' has changed his last seen privacy setting to ' + privacy_setting + '.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_LASTSEEN') + privacy_setting + '.';
 		} else if($obj.type == 'profilepic_privacy') {
-			var privacy_setting = 'everybody';
+			var privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PIRV_EVERY');
 			if($obj.profilepic_privacy == true) {
-				privacy_setting = 'contacts or nobody';
+				privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_CONTACTS');
 			}
-			body = $obj.name + ' has changed his profile picture privacy setting to ' + privacy_setting + '.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_PROFPIC') + privacy_setting + '.';
 		} else if($obj.type == 'statusmsg_privacy') {
-			var privacy_setting = 'everybody';
+			var privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PIRV_EVERY');
 			if($obj.statusmsg_privacy == true) {
-				privacy_setting = 'contacts or nobody';
+				privacy_setting = $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_CONTACTS');
 			}
-			body = $obj.name + ' has changed his status message privacy setting to ' + privacy_setting + '.';
+			body = $obj.name + $filter('translate')('CONTROLLER_NOTIFICATION_PRIV_STATUSMSG') + privacy_setting + '.';
 		} else if($obj.type == 'tracker_start') {
-			body = 'Tracker has started tracking.';
+			body = $filter('translate')('CONTROLLER_NOTIFICATION_TRACKER_START');
 			icon = 'app-icon-big.png';
 		} else if($obj.type == 'tracker_end') {
-			body = 'Tracker has stopped tracking with reason: ' + $obj.name + '.';
+			body = $filter('translate')('CONTROLLER_NOTIFICATION_TRACKER_STOP') + $obj.name + '.';
 			icon = 'app-icon-big.png';
 		}
 
@@ -1240,7 +1235,7 @@ angular.module('whatsspyControllers', [])
 	$scope.tooltipUserStatusCount = function(prop) {
 		return function(key, x, y, e, graph) {
 			return  '<h4 class="whatsspy-stat-head">' + key + '</h4>' +
-		        '<p>' +  y.point[prop] + ' times</p>'
+		        '<p>' +  y.point[prop] + ' '+$filter('translate')('CONTROLLER_STAT_TIMES')+'</p>'
 		}
 	}
 
@@ -1355,7 +1350,7 @@ angular.module('whatsspyControllers', [])
 					alertify.error(data.error);
 				}
 			} else {
-				alertify.log('CMD: '+query+' resulted in code: ' + data['result-code'] + ' with output: ' + data.result.join());
+				alertify.log($filter('translate')('CONTROLLER_CMD0')+query+$filter('translate')('CONTROLLER_CMD1')+ data['result-code'] + $filter('translate')('CONTROLLER_CMD2') + data.result.join());
 				$rootScope.refreshContent();
 			}
 			deferred.resolve(null);
@@ -1385,7 +1380,7 @@ angular.module('whatsspyControllers', [])
 				}
 			}).
 			error(function(data, status, headers, config) {
-				alertify.error("Could not contact the server.");
+				alertify.error($filter('translate')('CONTROLLER_SERVER_NO_RES'));
 			});
 	}
 });

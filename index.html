@@ -28,9 +28,11 @@
         <script src="js/vendor/angularjs-nvd3-directives.min.js"></script>
         <script src="js/vendor/angular-vis.js"></script>
         <script src="js/vendor/alertify.min.js"></script>
+        <script src="js/vendor/translate.min.js"></script>
         <script src="js/filters.js"></script>
         <script src="js/controllers.js"></script>
         <script src="js/app.js"></script>
+        <script src="js/translate.js"></script>
     </head>
     <body data-ng-controller="MainController">
         <div class="container">
@@ -47,64 +49,64 @@
                             <li data-ng-show="authenticated == false">
                                 <a href="#/login" data-ng-class="getActivePageClass('login')">
                                     <span class="setting-icon glyphicon glyphicon-bell"></span><br />
-                                    Login
+                                    {{'MENU_LOGIN' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="authenticated == true && !isInPage('public')">
                                 <a href="#/overview" data-ng-class="getActivePageClass('overview')">
                                     <span class="setting-icon glyphicon glyphicon-list"></span><br />
-                                    Overview
+                                    {{'MENU_OVERVIEW' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="authenticated == true && !isInPage('public')">
                                 <a href="#/compare" data-ng-class="getActivePageClass('compare')">
                                     <span class="setting-icon glyphicon glyphicon-scale"></span><br />
-                                    Compare
+                                    {{'MENU_COMPARE' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="authenticated == true && !isInPage('public')">
                                 <a href="#/timeline" data-ng-class="getActivePageClass('timeline')">
                                     <span class="setting-icon glyphicon glyphicon-time"></span><br />
-                                    Timeline
+                                    {{'MENU_TIMELINE' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="authenticated == true && !isInPage('public')">
                                 <a href="#/statistics" data-ng-class="getActivePageClass('statistics')">
                                     <span class="setting-icon glyphicon glyphicon-signal"></span><br />
-                                    Statistics
+                                    {{'MENU_STATS' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="authenticated == true && !isInPage('public')">
                                 <a href="#/about" data-ng-class="getActivePageClass('about')">
                                     <span class="setting-icon glyphicon glyphicon-blackboard"></span><br />
-                                    About / Help
+                                    {{'MENU_ABOUT' | translate}}
                                     <span class="label label-danger label-notification" data-ng-show="aboutNotifications > 0">{{aboutNotifications}}</span>
                                 </a>
                             </li>
                             <li data-ng-show="isInPage('public/user')">
                                 <a href="#" onclick="return false;" data-ng-class="getActivePageClass('public/user')">
                                     <span class="setting-icon glyphicon glyphicon-tag"></span><br />
-                                    Public user
+                                    {{'MENU_USER' | translate}}
                                 </a>
                             </li>
                             <li data-ng-show="isInPage('public/group')">
                                 <a href="#" onclick="return false;" data-ng-class="getActivePageClass('public/group')">
                                     <span class="setting-icon glyphicon glyphicon-tags"></span><br />
-                                    Public group
+                                    {{'MENU_GROUP' | translate}}
                                 </a>
                             </li>
                         </ul>
-                        <div id="loader" data-ng-show="showLoader == true" title="Loading new data ..."></div>
+                        <div id="loader" data-ng-show="showLoader == true" data-ng-attr-title="{{'MENU_LOADING' | translate}}"></div>
                     </div>
                     <div class="col-md-2 col-xs-12" data-ng-hide="isInPage('public') == true">
                         <div id="status">
-                            <strong><span class="setting-icon glyphicon glyphicon-tasks"></span> status</strong>
+                            <strong><span class="setting-icon glyphicon glyphicon-tasks"></span> {{'MENU_STATUS' | translate}}</strong>
                             <br />
-                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'" class="label label-success">Tracker online</span>
-                            <span data-ng-cloak data-ng-show="trackerStatus() == 'offline'" class="label label-danger">Tracker offline</span>
-                            <span data-ng-cloak data-ng-show="trackerStatus() == 'unknown'" class="label label-default">not authenticated</span>
-                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'"class="label label-info">{{accounts.length}} users</span>
-                            <span data-ng-show="trackerStatus() != 'unknown'" data-ng-click="refreshContent()" data-ng-cloak class="label label-default whatsspy-data-management" data-toggle="tooltip" data-placement="bottom" title="Click to refresh the data loaded into the web-app."><span am-time-ago="loadedTime"></span></span>
+                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'" class="label label-success">{{'MENU_TRACKER_ONLINE' | translate}}</span>
+                            <span data-ng-cloak data-ng-show="trackerStatus() == 'offline'" class="label label-danger">{{'MENU_TRACKER_OFFLINE' | translate}}</span>
+                            <span data-ng-cloak data-ng-show="trackerStatus() == 'unknown'" class="label label-default">{{'MENU_TRACKER_NOAUTH' | translate}}</span>
+                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'"class="label label-info">{{accounts.length}} {{'MENU_TRACKER_USERS' | translate}}</span>
+                            <span data-ng-show="trackerStatus() != 'unknown'" data-ng-click="refreshContent()" data-ng-cloak class="label label-default whatsspy-data-management" data-toggle="tooltip" data-placement="bottom" data-ng-attr-title="{{'MENU_TRACKER_REFRESH' | translate}}"><span am-time-ago="loadedTime"></span></span>
                         </div>
                     </div>
                 </div> 
@@ -120,8 +122,8 @@
             </div>
             <footer class="row">
                 <div class="col-xs-12 version">
-                    WhatsSpy Public - <a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home" target="_blank">Proof of Concept</a>
-                    <span class="float-right">Version <a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/updates" target="_blank">{{version}}</a> <strong class="update-behind" data-ng-show="version != newestVersion && tokenAuth == null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Behind.</strong></span> 
+                    WhatsSpy Public - <a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home" target="_blank">{{'MENU_POC' | translate}}</a>
+                    <span class="float-right">{{'FOOTER_VERSION' | translate}} <a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/updates" target="_blank">{{version}}</a> <strong class="update-behind" data-ng-show="version != newestVersion && tokenAuth == null"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{'FOOTER_V_BEHIND' | translate}}.</strong></span> 
                 </div>
             </footer>
             <audio id="notification">  

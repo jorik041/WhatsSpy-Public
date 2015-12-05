@@ -5,7 +5,7 @@
 //  app.js - AngularJS application
 // -----------------------------------------------------------------------
 
-angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyControllers', 'angularMoment', 'nvd3ChartDirectives', 'ui.multiselect'])
+angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyControllers', 'angularMoment', 'nvd3ChartDirectives', 'ui.multiselect', 'whatsspy-translate'])
 .config(function($routeProvider, $locationProvider) {
   $routeProvider
   .when('/overview', {
@@ -42,11 +42,13 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
   })
   .otherwise({redirectTo: '/overview'});;
 })
-.controller('MainController', function($scope, $rootScope, $location, $http, $q, $filter, $sce) {
+.controller('MainController', function($scope, $rootScope, $location, $timeout, $http, $q, $filter, $sce, $translate) {
   // Version of the application
   $rootScope.version = '1.5.9';
 
-  $('[data-toggle="tooltip"]').tooltip();
+  $timeout(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+  }, 1500);
 
   // Set active buttons according to the current page
   $scope.getActivePageClass = function(path) {
@@ -65,11 +67,37 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
     }
   }
 
-  $rootScope.timelineLengthOptions = [{name: '24 hours (best performance)', value: 1},
-                                      {name: '7  days', value: 7},
-                                      {name: '14 days', value: 14},
-                                      {name: '31 days (slow)', value: 31},
-                                      {name: '90 days (very slow)', value: 90}];
+  $rootScope.timeline = [];
+  $rootScope.timelineLengthOptions = [];
+  $rootScope.charTrans = [];
+  $translate(['CONTROLLER_TIMELINE_1D', 
+              'CONTROLLER_TIMELINE_7D', 
+              'CONTROLLER_TIMELINE_14D', 
+              'CONTROLLER_TIMELINE_31D',
+              'CONTROLLER_TIMELINE_90D',
+              'CONTROLLER_CHAR_OPENED',
+              'CONTROLLER_CHAR_TIMES',
+              'CONTROLLER_CHAR_MINUTES',
+              'CONTROLLER_COPY']).then(function (translations) {
+    $rootScope.timeline['1d'] = translations.CONTROLLER_TIMELINE_1D;
+    $rootScope.timeline['7d'] = translations.CONTROLLER_TIMELINE_7D;
+    $rootScope.timeline['14d'] = translations.CONTROLLER_TIMELINE_14D;
+    $rootScope.timeline['31d'] = translations.CONTROLLER_TIMELINE_31D;
+    $rootScope.timeline['90d'] = translations.CONTROLLER_TIMELINE_90D;
+    $rootScope.timelineLengthOptions = [{name: $rootScope.timeline['1d'], value: 1},
+                                        {name: $rootScope.timeline['7d'], value: 7},
+                                        {name: $rootScope.timeline['14d'], value: 14},
+                                        {name: $rootScope.timeline['31d'], value: 31},
+                                        {name: $rootScope.timeline['90d'], value: 90}];
+    $rootScope.charTrans['OPENED'] = translations.CONTROLLER_CHAR_OPENED;
+    $rootScope.charTrans['TIMES'] = translations.CONTROLLER_CHAR_TIMES;
+    $rootScope.charTrans['MINUTES'] = translations.CONTROLLER_CHAR_MINUTES;
+    $rootScope.charTrans['COPY'] = translations.CONTROLLER_COPY;
+    // Javascript page setup call
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
+
 
   $rootScope.constructor = function() {
     // This data is required for this whole Angularjs Application
@@ -302,9 +330,9 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
       return function(key, x, y, e, graph) {
         var tooltip = '<strong class="whatsspy-bar-chart-head">('+key+') ' + $filter('weekdayToName')(x) + '</strong><br />';
         if(type == 'times') {
-          tooltip += '<span class="whatsspy-bar-chart-content">opened ' +  y.substring(0, y.length -2) + ' times.</span>';
+          tooltip += '<span class="whatsspy-bar-chart-content">'+$rootScope.charTrans['OPENED']+' ' +  y.substring(0, y.length -2) + ' '+$rootScope.charTrans['TIMES']+'.</span>';
         } else {
-          tooltip += '<span class="whatsspy-bar-chart-content">' +  y.substring(0, y.length -2) + ' minutes.</span>';
+          tooltip += '<span class="whatsspy-bar-chart-content">' +  y.substring(0, y.length -2) + ' '+$rootScope.charTrans['MINUTES']+'.</span>';
         }
         return tooltip;   
       }
@@ -312,9 +340,9 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
       return function(key, x, y, e, graph) {
         var tooltip = '<strong class="whatsspy-bar-chart-head">('+key+') ' + x + ':00 - '+ x +':59</strong><br />';
         if(type == 'times') {
-          tooltip += '<span class="whatsspy-bar-chart-content">opened ' +  y.substring(0, y.length -2) + ' times.</span>';
+          tooltip += '<span class="whatsspy-bar-chart-content">'+$rootScope.charTrans['OPENED']+' ' +  y.substring(0, y.length -2) + ' '+$rootScope.charTrans['TIMES']+'.</span>';
         } else {
-          tooltip += '<span class="whatsspy-bar-chart-content">' +  y.substring(0, y.length -2) + ' minutes.</span>';
+          tooltip += '<span class="whatsspy-bar-chart-content">' +  y.substring(0, y.length -2) + ' '+$rootScope.charTrans['MINUTES']+'.</span>';
         }
         return tooltip;
       }
@@ -412,7 +440,7 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
 
   $rootScope.copyToClipboard = function(text) {
     if(text != null) {
-      window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+      window.prompt($rootScope.charTrans['COPY'], text);
     }
   }
 

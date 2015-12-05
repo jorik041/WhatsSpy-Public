@@ -3,9 +3,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="jumbotron">
-					<h1>Welcome!</h1>
+					<h1>{{'LOGIN_WELCOME' | translate}}</h1>
 					<p>
-						Welcome to the WhatsSpy Public PoC! Before you start tracking please read the <a target ="_blank" href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home#license-cc-by-nc">license</a>. <span data-ng-bind-html="headline"></span>
+						{{'LOGIN_WELCOME_MSG' | translate}} <a target ="_blank" href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home#license-cc-by-nc">{{'LOGIN_LICENSE' | translate}}</a>. <span data-ng-bind-html="headline"></span>
 					</p>
 				</div>
 			</div>	
@@ -14,22 +14,22 @@
 	<div class="col-md-4">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Login</h3>
+				<h3 class="panel-title"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> {{'LOGIN_LOGIN_HEAD' | translate}}</h3>
 			</div>
 			<div class="panel-body">
-				<small>It seems you are not yet authenticated. Please login to view and manage the tracker.</small>
+				<small>{{'LOGIN_AUTH_NOTIFY' | translate}}</small>
 				<br />
 				<br />
 				<form onsubmit="return false;" ng-submit="attemptLogin()">
 					<div class="form-group">
-						<label for="inputPassword" class="control-label">Password</label>
-						<input type="password" class="form-control" id="inputPassword" data-ng-model="inputPassword" placeholder="password ...">
+						<label for="inputPassword" class="control-label">{{'LOGIN_PASS_FIELD' | translate}}</label>
+						<input type="password" class="form-control" id="inputPassword" data-ng-model="inputPassword" placeholder="{{'LOGIN_PASS_PLACEHOLDER' | translate}}">
 					</div>
 					<br />
 					<br />
 					<div class="form-group">
-						<button type="submit" class="btn btn-primary">Sign in</button>
-						<span class="btn btn-default" data-ng-click="inputPassword = null">Reset</span>
+						<button type="submit" class="btn btn-primary">{{'LOGIN_SIGN_IN_BTN' | translate}}</button>
+						<span class="btn btn-default" data-ng-click="inputPassword = null">{{'LOGIN_RESET_BTN' | translate}}</span>
 					</div>
 				</form>
 			</div>

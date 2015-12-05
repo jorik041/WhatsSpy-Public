@@ -3,14 +3,14 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="well whatsspy-header-box">
-					<strong><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filters</strong>
+					<strong><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> {{'TIMELINE_FILTER' | translate}}</strong>
 					<br />
 					<br />
 					<p>
-						<input type="text" class="form-control" id="filterPhonenumber"data-ng-model="filterPhonenumber" ng-model-options="{debounce: 1000}" placeholder="Search by phone number ...">
+						<input type="text" class="form-control" id="filterPhonenumber"data-ng-model="filterPhonenumber" ng-model-options="{debounce: 1000}" placeholder="{{'TIMELINE_FILTER_PHONE_PLACEHOLDER' | translate}}">
 					</p>
 					<p>
-						<input type="text" class="form-control" id="filterName" data-ng-model="filterName"  ng-model-options="{debounce: 1000}" placeholder="Search by name ..." title="Use &lt;name&gt;|&lt;name&gt; to filter on multiple names." data-toggle="tooltip" data-placement="bottom">
+						<input type="text" class="form-control" id="filterName" data-ng-model="filterName"  ng-model-options="{debounce: 1000}" placeholder="{{'TIMELINE_SEARCH_NAME' | translate}}" data-ng-attr-title="{{'TIMELINE_FILTER_NAME_PLACEHOLDER' | translate}}" data-toggle="tooltip" data-placement="bottom">
 					</p>
 					<p>
 						<select class="form-control" data-ng-model="filterGroup" data-ng-options="group.gid as group.name for group in groups" ></select>
@@ -20,13 +20,13 @@
 			<div class="col-md-9">
 				<div class="well whatsspy-header-box">
 					<p>
-						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> The system is checking all statuses <span data-ng-show="accounts.length > 0">from {{accounts.length}} contacts</span> continuously from {{trackerStart | staticDatetime}}
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{'TIMELINE_INFO_STATUS' | translate}} <span data-ng-show="accounts.length > 0">{{'TIMELINE_INFO_FROM' | translate}} {{accounts.length}} {{'TIMELINE_INFO_CONTACTS' | translate}}</span> {{'TIMELINE_INFO_CONTINIOUS' | translate}} {{trackerStart | staticDatetime}}
 					</p>
 					<p>
-						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Contacts that have "last seen" set to "nobody" will be <a href="https://maikel.pro/blog/en-whatsapp-privacy-problem-explained-in-detail/" target="_blank">tracked anyway</a>.
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{'TIMELINE_INFO_LASTSTATUS' | translate}} <a href="https://maikel.pro/blog/en-whatsapp-privacy-problem-explained-in-detail/" target="_blank">{{'TIMELINE_INFO_LASTSTATUS2' | translate}}</a>.
 					</p>
 					<p>
-						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Unlike the overview and comparison page, this information is live.
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> {{'TIMELINE_INFO_LIVE' | translate}}
 					</p>
 					<br />
 					<br />
@@ -34,12 +34,12 @@
 						<button type="button" class="btn btn-default" data-ng-click="notifyAnySound = getOpposite(notifyAnySound);">
 	    					<span class="glyphicon glyphicon-ok green" aria-hidden="true" data-ng-show="notifyAnySound == true"></span>
 	    					<span class="glyphicon glyphicon-remove red" aria-hidden="true" data-ng-show="notifyAnySound == false"></span>
-	    					Notify for any event (with filter)
+	    					{{'TIMELINE_FILTER_NOTIFY' | translate}}
 	    				</button> 
 	    				<button type="button" class="btn btn-default" data-ng-click="showTrackerInfo = getOpposite(showTrackerInfo);">
 	    					<span class="glyphicon glyphicon-ok green" aria-hidden="true" data-ng-show="showTrackerInfo == true"></span>
 	    					<span class="glyphicon glyphicon-remove red" aria-hidden="true" data-ng-show="showTrackerInfo == false"></span>
-	    					Show tracker events
+	    					{{'TIMELINE_FILTER_TRACKER' | translate}}
 	    				</button>
 	    			</p>
 				</div>
@@ -47,13 +47,13 @@
 		</div>
 		<div class="row visible-sm-block visible-xs-block">
 			<ul class="nav nav-tabs">
-				<li role="presentation" data-ng-class="{'active': showActivityTimeline == true}" data-ng-click="setTimelineTab('activity');"><a aria-controls="activity-timeline" role="tab" data-toggle="tab" data-target="#activity-timeline">Activity Timeline</a></li>
-				<li role="presentation" data-ng-class="{'active': showStatusTimeline == true}" data-ng-click="setTimelineTab('status');"><a aria-controls="status-timeline" role="tab" data-toggle="tab" data-target="#status-timeline">Status Timeline</a></li>
+				<li role="presentation" data-ng-class="{'active': showActivityTimeline == true}" data-ng-click="setTimelineTab('activity');"><a aria-controls="activity-timeline" role="tab" data-toggle="tab" data-target="#activity-timeline">{{'TIMELINE_ACTIVITY_H' | translate}}</a></li>
+				<li role="presentation" data-ng-class="{'active': showStatusTimeline == true}" data-ng-click="setTimelineTab('status');"><a aria-controls="status-timeline" role="tab" data-toggle="tab" data-target="#status-timeline">{{'TIMELINE_STATUS_H' | translate}}</a></li>
 			</ul>
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-xs-12" data-ng-show="showActivityTimeline == true">
-				<h3>Activity timeline <small>(from {{timelineData.since | staticDate}} till now)</small></h3>
+				<h3>{{'TIMELINE_ACTIVITY_TIMESPAN1' | translate}} <small>({{'TIMELINE_ACTIVITY_TIMESPAN2' | translate}} {{timelineData.since | staticDate}} {{'TIMELINE_ACTIVITY_TIMESPAN3' | translate}})</small></h3>
 				<div data-ng-repeat="item in timelineData.activity | numberFilter:filterPhonenumber:filterName:filterGroup">
 					<!-- ACTIVITY: TRACKER START -->
 					<div class="panel panel-default whatsspy-timeline-animate" data-ng-class="{'whatsspy-timeline-new': item.new == true}" data-ng-show="item.type == 'tracker_start'">
@@ -62,7 +62,7 @@
 					  		<span class="glyphicon glyphicon-list-alt whatsspy-timeline-activity-icon" aria-hidden="true"></span>
 					  	</div>
 					  	<div class="col-md-7 col-xs-10">
-					  		<h3 class="panel-title">Tracker is now online</h3>
+					  		<h3 class="panel-title">{{'TIMELINE_ACTIVITY_TRACKERSTART' | translate}}</h3>
 					  	</div>
 					  	<div class="col-md-4 col-xs-12 whatsspy-timeline-changed-at">
 					  		{{item.changed_at | staticDatetime}}
@@ -70,7 +70,7 @@
 					  	<div class="clear"></div>
 					  	</div>
 					  <div class="panel-body">
-					    started at <strong>{{item.start | staticDatetime}}</strong>.
+					    {{'TIMELINE_ACTIVITY_TRACKERSTART_STARTED' | translate}} <strong>{{item.start | staticDatetime}}</strong>.
 					  </div>
 					</div>	
 					<!-- ACTIVITY: TRACKER STOP -->
@@ -80,7 +80,7 @@
 					  		<span class="glyphicon glyphicon-list-alt whatsspy-timeline-activity-icon" aria-hidden="true"></span>
 					  	</div>
 					  	<div class="col-md-7 col-xs-10">
-					  		<h3 class="panel-title">Tracker is now offline</h3>
+					  		<h3 class="panel-title">{{'TIMELINE_ACTIVITY_TRACKERSTOP' | translate}}</h3>
 					  	</div>
 					  	<div class="col-md-4 col-xs-12 whatsspy-timeline-changed-at">
 					  		{{item.changed_at | staticDatetime}}
@@ -88,13 +88,13 @@
 					  	<div class="clear"></div>
 					  	</div>
 					  <div class="panel-body">
-					    this session lasted from <strong>{{item.start | staticDatetime}}</strong> till <strong>{{item.end | staticDatetime}}</strong>. 
+					    {{'TIMELINE_ACTIVITY_TRACKERSTOP_SESSION' | translate}} <strong>{{item.start | staticDatetime}}</strong> {{'TIMELINE_ACTIVITY_TRACKERSTOP_TILL' | translate}} <strong>{{item.end | staticDatetime}}</strong>. 
 					    <br />
 					    <br />
-					    Reason: <strong>{{item.name | trackerReason}}</strong>
+					    {{'TIMELINE_ACTIVITY_TRACKERSTOP_REASON' | translate}} <strong>{{item.name | trackerReason}}</strong>
 					    <br />
 					    <br />
-					    <small data-ng-show="item.name != 'Normal shutdown'"><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/tracker-shutdown-errors" target="_blank">Support for common problems</a></small>
+					    <small data-ng-show="item.name != 'Normal shutdown'"><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/tracker-shutdown-errors" target="_blank">{{'TIMELINE_ACTIVITY_TRACKERSTOP_SUPPORT' | translate}}</a></small>
 					  </div>
 					</div>	
 					<!-- ACTIVITY: STATUS MSG CHANGE -->
@@ -104,7 +104,7 @@
 					  		<span class="glyphicon glyphicon-comment whatsspy-timeline-activity-icon " aria-hidden="true"></span>
 					  	</div>
 					  	<div class="col-md-7 col-xs-10">
-					  		<h3 class="panel-title">New status message for <a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a></h3> ({{item.id}})
+					  		<h3 class="panel-title">{{'TIMELINE_ACTIVITY_STATUSMSG' | translate}} <a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a></h3> ({{item.id}})
 					  	</div>
 					  	<div class="col-md-4 col-xs-12 whatsspy-timeline-changed-at">
 					  		{{item.changed_at | staticDatetime}}
@@ -112,7 +112,7 @@
 					  	<div class="clear"></div>
 					  	</div>
 					  <div class="panel-body">
-					    changed to "<strong>{{item.msg_status}}</strong>".
+					    {{'TIMELINE_ACTIVITY_STATUSMSG_TO' | translate}} "<strong>{{item.msg_status}}</strong>".
 					  </div>
 					</div>	
 					<!-- ACTIVITY: STATUS PROFILE PICTURE CHANGE -->
@@ -122,10 +122,10 @@
 					  		<span class="glyphicon glyphicon-picture whatsspy-timeline-activity-icon " aria-hidden="true"></span>
 					  	</div>
 					  	<div class="col-md-7 col-xs-10">
-					  		<h3 class="panel-title">New profile photo for <a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a></h3> ({{item.id}})
+					  		<h3 class="panel-title">{{'TIMELINE_ACTIVITY_PROFPIC' | translate}} <a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a></h3> ({{item.id}})
 					  	</div>
 					  	<div class="col-md-4 col-xs-12 whatsspy-timeline-changed-at">
-					  		{{item.changed_at | staticDatetime}} <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" title="Detecting profile picture changes can take 0-4 hours."></span>
+					  		{{item.changed_at | staticDatetime}} <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" data-ng-attr-title="{{'TIMELINE_ACTIVITY_PROFPIC_TITLE' | translate}}"></span>
 					  	</div>
 					  	<div class="clear"></div>
 					  	</div>
@@ -140,53 +140,53 @@
 					  		<span class="glyphicon glyphicon-pencil whatsspy-timeline-activity-icon " aria-hidden="true"></span>
 					  	</div>
 					  	<div class="col-md-7 col-xs-10">
-					  		<h3 class="panel-title"><a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a> changed his privacy setting</h3> ({{item.id}})
+					  		<h3 class="panel-title"><a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link">{{item.name | emptyName}}</a> {{'TIMELINE_ACTIVITY_PRIV' | translate}}</h3> ({{item.id}})
 					  	</div>
 					  	<div class="col-md-4 col-xs-12 whatsspy-timeline-changed-at">
-					  		{{item.changed_at | staticDatetime}} <span class="glyphicon glyphicon-warning-sign" aria-hidden="true" title="Detecting privacy changes can take 0-2 hours."></span>
+					  		{{item.changed_at | staticDatetime}}</span>
 					  	</div>
 					  	<div class="clear"></div>
 					  	</div>
 					  <div class="panel-body">
 					  	<div data-ng-show="item.type == 'lastseen_privacy'">
-							Privacy option <strong>last seen</strong> is now set to 
-							<span data-ng-show="item.lastseen_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">contacts*</span>
-							<span data-ng-show="item.lastseen_privacy == false" class="label label-success ">everyone</span>.
+							{{'TIMELINE_ACTIVITY_PRIV_OPTION' | translate}} <strong>{{'TIMELINE_ACTIVITY_PRIV_LASTSEEN' | translate}}</strong> {{'TIMELINE_ACTIVITY_PRIV_SETTO' | translate}} 
+							<span data-ng-show="item.lastseen_privacy == true" data-ng-attr-title="{{'TIMELINE_ACTIVITY_PRIV_CONTACTSTITLE' | translate}}" class="label label-danger">{{'TIMELINE_ACTIVITY_PRIV_CONTACTS' | translate}}</span>
+							<span data-ng-show="item.lastseen_privacy == false" class="label label-success ">{{'TIMELINE_ACTIVITY_PRIV_EVERYONE' | translate}}</span>.
 						</div>
 						<div data-ng-show="item.type == 'profilepic_privacy'">
-							Privacy option <strong>profile picture</strong> is now set to 
-							<span data-ng-show="item.profilepic_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">contacts*</span>
-							<span data-ng-show="item.profilepic_privacy == false" class="label label-success ">everyone</span>.
+							{{'TIMELINE_ACTIVITY_PRIV_OPTION' | translate}} <strong>{{'TIMELINE_ACTIVITY_PRIV_PROFPIC' | translate}}</strong> {{'TIMELINE_ACTIVITY_PRIV_SETTO' | translate}} 
+							<span data-ng-show="item.profilepic_privacy == true" data-ng-attr-title="{{'TIMELINE_ACTIVITY_PRIV_CONTACTSTITLE' | translate}}" class="label label-danger">{{'TIMELINE_ACTIVITY_PRIV_CONTACTS' | translate}}</span>
+							<span data-ng-show="item.profilepic_privacy == false" class="label label-success ">{{'TIMELINE_ACTIVITY_PRIV_EVERYONE' | translate}}</span>.
 						</div>
 						<div data-ng-show="item.type == 'statusmsg_privacy'">
-							Privacy option <strong>status messages</strong> is now set to 
-							<span data-ng-show="item.statusmsg_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">contacts*</span>
-							<span data-ng-show="item.statusmsg_privacy == false" class="label label-success ">everyone</span>.
+							{{'TIMELINE_ACTIVITY_PRIV_OPTION' | translate}} <strong>{{'TIMELINE_ACTIVITY_PRIV_STATUSMSG' | translate}}</strong> {{'TIMELINE_ACTIVITY_PRIV_SETTO' | translate}} 
+							<span data-ng-show="item.statusmsg_privacy == true" data-ng-attr-title="{{'TIMELINE_ACTIVITY_PRIV_CONTACTSTITLE' | translate}}" class="label label-danger">{{'TIMELINE_ACTIVITY_PRIV_CONTACTS' | translate}}</span>
+							<span data-ng-show="item.statusmsg_privacy == false" class="label label-success ">{{'TIMELINE_ACTIVITY_PRIV_EVERYONE' | translate}}</span>.
 						</div>
 					  </div>
 					</div>
 				</div>
 				<div data-ng-show="timelineData.activity.length == 0">
-					<center>No information available ..</center>
+					<center>{{'TIMELINE_ACTIVITY_NOINFO' | translate}}</center>
 				</div>
 				<div class="whatsspy-passive-timeline" data-ng-click="requestOlderActivityData();">
-					<center>Click to load 7 more days of older entries ..</center>
+					<center>{{'TIMELINE_ACTIVITY_LOADMORE' | translate}}</center>
 				</div>
 			</div>
 			<div class="col-md-4 col-xs-12"  data-ng-show="showStatusTimeline == true">
-				<h3>Status timeline</h3>
+				<h3>{{'TIMELINE_STATUS_H' | translate}}</h3>
 				<!-- userstatus -->
 				<div data-ng-repeat="item in filteredUserstatus = (timelineData.userstatus | numberFilter:filterPhonenumber:filterName:filterGroup)">
 					<div class="whatsspy-timeline-animate-status whatsspy-timeline-animate" data-ng-class="{'whatsspy-timeline-new': item.new == true}">
 						<h4 data-ng-hide="filteredUserstatus[$index - 1].id == item.id"><a data-ng-href="#/overview#{{item.id}}" class="whatsspy-clean-link"><span class="glyphicon glyphicon-user" data-ng-class="" aria-hidden="true"></span> {{item.name | emptyName}}</a> <small>({{item.id}})</small></h4> 
-						Online from <span class="label label-success">{{item.start | staticTime}}</span> <span data-ng-show="item.end != null">till <span class="label label-success">{{item.end | staticTime}}</span></span> <small class="float-right" data-ng-show="item.timediff != null">({{item.timediff | timeFormat}})</small>
+						{{'TIMELINE_STATUS_ONLINE' | translate}} <span class="label label-success">{{item.start | staticTime}}</span> <span data-ng-show="item.end != null">{{'TIMELINE_STATUS_TILL' | translate}} <span class="label label-success">{{item.end | staticTime}}</span></span> <small class="float-right" data-ng-show="item.timediff != null">({{item.timediff | timeFormat}})</small>
 					</div>
 				</div>
 				<div data-ng-show="timelineData.userstatus.length == 0">
-					<center>No information available ..</center>
+					<center>{{'TIMELINE_STATUS_NOINFO' | translate}}</center>
 				</div>
 				<div data-ng-show="filteredUserstatus == 0">
-					<center>No current user statuses for this filter ..</center>
+					<center>{{'TIMELINE_STATUS_NOINFOFILTER' | translate}}</center>
 				</div>
 			</div>
 		</div>

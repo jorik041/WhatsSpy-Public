@@ -75,46 +75,46 @@ angular.module('whatsspyFilters', [])
 		return out;
 	}
 })
-.filter('weekdayToName', function() {
+.filter('weekdayToName', function(translateFilter) {
 	return function(weekday) {
 		switch (weekday) {
 		    case 0:
-		        return "Sunday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Sunday");
 		        break;
 		    case 1:
-		        return "Monday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Monday");
 		        break;
 		    case 2:
-		        return "Tuesday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Tuesday");
 		        break;
 		    case 3:
-		        return "Wednesday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Wednesday");
 		        break;
 		    case 4:
-		        return "Thursday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Thursday");
 		        break;
 		    case 5:
-		        return "Friday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Friday");
 		        break;
 		    case 6:
-		        return "Saturday";
+		        return translateFilter("CONTROLLER_WEEKDAY_Saturday");
 		        break;
 		}
 	}
 })
-.filter('emptyName', function () {
+.filter('emptyName', function (translateFilter) {
 	return function (value) {
 		if(value == null) {
-			return 'No name';
+			return translateFilter('CONTROLLER_NONAME');
 		} else {
 			return value;
 		}
 	};
 })
-.filter('emptyToken', function () {
+.filter('emptyToken', function (translateFilter) {
 	return function (value) {
 		if(value == null) {
-			return 'Not shared ...';
+			return translateFilter('CONTROLLER_NOTOKEN');
 		} else {
 			return value;
 		}
@@ -143,10 +143,10 @@ angular.module('whatsspyFilters', [])
 		}
 	};
 })
-.filter('trackerReason', function () {
+.filter('trackerReason', function (translateFilter) {
 	return function (value) {
 		if(value == null) {
-			return 'not given';
+			return translateFilter('CONTROLLER_TRACKER_REASON_NONE');
 		} else {
 			return value;
 		}
@@ -161,7 +161,7 @@ angular.module('whatsspyFilters', [])
 		}
 	};
 })
-.filter('timeFormat', function () {
+.filter('timeFormat', function (translateFilter) {
         return function (seconds) {
             var str = '';
             var remainingSec = seconds;
@@ -170,22 +170,22 @@ angular.module('whatsspyFilters', [])
             } 
 
             if(remainingSec > 86400) {
-              str += Math.floor(remainingSec / 86400) + 'd ';
+              str += Math.floor(remainingSec / 86400) + translateFilter('CONTROLLER_TIME_DAY');
               remainingSec = remainingSec % 86400;
             }
 
             if(remainingSec > 3600) {
-              str += Math.floor(remainingSec / 3600) + 'h ';
+              str += Math.floor(remainingSec / 3600) + translateFilter('CONTROLLER_TIME_HOURS');
               remainingSec = remainingSec % 3600;
             }
 
             if(remainingSec > 60) {
-              str += Math.floor(remainingSec / 60) + 'min ';
+              str += Math.floor(remainingSec / 60) + translateFilter('CONTROLLER_TIME_MINUTES');
               remainingSec = remainingSec % 60;
             } 
 
             if(remainingSec > 0) {
-              str += remainingSec + 'sec';
+              str += remainingSec + translateFilter('CONTROLLER_TIME_SECONDS');
             }
 
             return str;

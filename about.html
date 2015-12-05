@@ -2,18 +2,17 @@
 	<div class="col-md-12">
 		<div class="row">
 			<div class="col-md-12">
-				<!-- <div class="alert alert-warning" role="alert"><strong>Raspberry Pi users:</strong> Did you download the Raspberry Pi image before the 4th of march? <a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/rpi-fix" target="_blank">Please check for this problem.</a></div> -->
 				<div class="well whatsspy-header-box">
 					<div class="row">
 						<div class="col-md-9">
 							<p>
-								WhatsSpy Public is a Proof of Concept to show how broken Whatsapp privacy settings are. With this tool you can basicly follow anyone's behaviour with only the knowledge of their phone number. This tool is for Proof of Concept purposes only! Please read the <a target ="_blank" href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home#license-cc-by-nc">license</a> which applies to this PoC.
+								{{'ABOUT_LICENSE0' | translate}} <a target ="_blank" href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home#license-cc-by-nc">{{'ABOUT_LICENSE1' | translate}}</a> {{'ABOUT_LICENSE2' | translate}}
 							</p>
 							<br />
 							<p>
-								You can support this work by a small donation: <br />
-								<strong>Bitcoin:</strong> 1NrCxCMjHG13PkgaRptHGogmz4yawaGbvf or via 
-								<strong><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=94XN3X5EPUMP2&lc=NL&item_name=WhatsSpy%20Public%20Donations&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank">Paypal</a></strong>
+								{{'ABOUT_DONATION0' | translate}} <br />
+								<strong>{{'ABOUT_DONATION1' | translate}}</strong> 1NrCxCMjHG13PkgaRptHGogmz4yawaGbvf {{'ABOUT_DONATION2' | translate}} 
+								<strong><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=94XN3X5EPUMP2&lc=NL&item_name=WhatsSpy%20Public%20Donations&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted" target="_blank">{{'ABOUT_DONATION3' | translate}}</a></strong>
 							</p>
 							<br />
 							<br />
@@ -27,49 +26,49 @@
 					<div class="col-md-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-							  	<h3 class="panel-title">General information</h3>
+							  	<h3 class="panel-title">{{'ABOUT_INFO' | translate}}</h3>
 							</div>
 							<div class="panel-body">
 								<table class="table">
 									<tbody>
 										<tr>
-											<td><strong>Running version:</strong></td>
-											<td>{{version}} <strong class="update-behind" data-ng-show="version != newestVersion"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{newestVersion}} is available.</strong><strong class="update-current" data-ng-show="version == newestVersion"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Your version is up to date.</strong></td>
+											<td><strong>{{'ABOUT_VERSION' | translate}}</strong></td>
+											<td>{{version}} <strong class="update-behind" data-ng-show="version != newestVersion"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> {{newestVersion}} {{'ABOUT_UPDATE' | translate}}</strong><strong class="update-current" data-ng-show="version == newestVersion"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{'ABOUT_UPTODATE' | translate}}</strong></td>
 										</tr>
 										<tr data-ng-show="version != newestVersion">
-											<td><strong>Update {{newestVersion}}:</strong></td>
-											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/updates" target="_blank">Updatelog and how-to-update</a></td>
+											<td><strong>{{'ABOUT_UPDATE_NOW' | translate}} {{newestVersion}}:</strong></td>
+											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/updates" target="_blank">{{'ABOUT_UPDATE_LOG' | translate}}</a></td>
 										</tr>
 										<tr>
-											<td><strong>Wiki home page:</strong></td>
-											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home" target="_blank">Gitlab Wiki</a></td>
+											<td><strong>{{'ABOUT_WIKI' | translate}}</strong></td>
+											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/home" target="_blank">{{'ABOUT_WIKI_LINK' | translate}}</a></td>
 										</tr>
 										<tr>
-											<td><strong>FAQ:</strong></td>
-											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/FAQ" target="_blank">Frequently Asked Questions</a></td>
+											<td><strong>{{'ABOUT_FAQ' | translate}}</strong></td>
+											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/FAQ" target="_blank">{{'ABOUT_FAQ_LINK' | translate}}</a></td>
 										</tr>
 										<tr>
-											<td><strong>Troubleshooting:</strong></td>
-											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/troubleshooting" target="_blank">Troubleshooting</a></td>
+											<td><strong>{{'ABOUT_TROUBLE' | translate}}</strong></td>
+											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/troubleshooting" target="_blank">{{'ABOUT_TROUBLE_LINK' | translate}}</a></td>
 										</tr>
 										<tr>
-											<td><strong>Options:</strong></td>
+											<td><strong>{{'ABOUT_OPTIONS' | translate}}</strong></td>
 											<td>
-												<button type="submit" class="btn btn-danger" data-ng-click="doLogout(true)">Logout WebUI</button>
+												<button type="submit" class="btn btn-danger" data-ng-click="doLogout(true)">{{'ABOUT_OPTIONS_LOGOUT' | translate}}</button>
 											</td>
 										</tr>
 										<tr data-ng-show="advancedControls.enabled == true">
-											<td><strong>Advanced options:</strong></td>
+											<td><strong>{{'ABOUT_ADVANCED' | translate}}</strong></td>
 											<td>
-												<button type="submit" class="btn btn-warning" data-ng-click="executeServerCmd('doShutdown')">Stop tracker</button>
-												<button type="submit" class="btn btn-success" data-ng-click="executeServerCmd('doStartup')">Start tracker</button>
-												<button type="submit" class="btn btn-info" data-ng-click="executeServerCmd('doUpdate')">Auto update</button>
+												<button type="submit" class="btn btn-warning" data-ng-click="executeServerCmd('doShutdown')">{{'ABOUT_ADVANCED_STOP' | translate}}</button>
+												<button type="submit" class="btn btn-success" data-ng-click="executeServerCmd('doStartup')">{{'ABOUT_ADVANCED_START' | translate}}</button>
+												<button type="submit" class="btn btn-info" data-ng-click="executeServerCmd('doUpdate')">{{'ABOUT_ADVANCED_UPDATE' | translate}}</button>
 											</td>
 										</tr>
 									</tbody>
 								</table>
 								<p>
-									<h4>Literature/news for this project:</h4>
+									<h4>{{'ABOUT_NEWS' | translate}}</h4>
 									<ul>
 										<li data-ng-repeat="newsitem in news">
 											<a target ="_blank" data-ng-href="{{newsitem.url}}"> {{newsitem.title}} <small>({{newsitem.date}})</small></a>
@@ -82,22 +81,22 @@
 					<div class="col-md-6">
 						<div class="panel panel-default">
 							<div class="panel-heading">
-							  	<h3 class="panel-title">Notification agents</h3>
+							  	<h3 class="panel-title">{{'ABOUT_AGENTS' | translate}}</h3>
 							</div>
 							<div class="panel-body">
-								<small data-ng-show="notificationOptionDisabled">There are no notification agents configured in <strong>config.php</strong>. Check config.example.php in case you are missing these options.</small>
+								<small data-ng-show="notificationOptionDisabled">{{'ABOUT_AGENTS_NONE1' | translate}} <strong>{{'ABOUT_AGENTS_NONE2' | translate}}</strong>. {{'ABOUT_AGENTS_NONE3' | translate}}</small>
 								<div class="col-md-6" data-ng-show="notificationOptionDisabled == false && agent.enabled == true" data-ng-repeat="(key, agent) in notificationSettings">
 									<div class="panel panel-default">
 										<div class="panel-heading">
 										  	<h3 class="panel-title"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> {{agent.name}}</h3>
 										</div>
 										<div class="panel-body">
-											<strong>Notifying properties:</strong>
+											<strong>{{'ABOUT_AGENTS_PROPS' | translate}}</strong>
 											<table class="table">
 												<tbody>
 													<tr>
 														<td>
-															user actions
+															{{'ABOUT_AGENTS_USER' | translate}}
 														</td>
 														<td>
 															<strong>{{agent['notify-user']}}</strong>
@@ -105,7 +104,7 @@
 													</tr>
 													<tr data-ng-show="key != 'wa'">
 														<td>
-															tracker actions
+															{{'ABOUT_AGENTS_TRACKER' | translate}}
 														</td>
 														<td>
 															<strong>{{agent['notify-tracker']}}</strong>
@@ -113,7 +112,7 @@
 													</tr>
 													<tr data-ng-show="key == 'wa'">
 														<td colspan="2">
-															to: 
+															 {{'ABOUT_AGENTS_TO' | translate}}
 															<strong>{{agent['key']}}</strong>
 														</td>
 													</tr>
@@ -123,7 +122,7 @@
 							    	</div>
 								</div>	
 								<div class="clear"></div>
-								<small>Remember to restart the tracker after any change in your config.php.</small>
+								<small>{{'ABOUT_AGENTS_RESTART' | translate}}</small>
 							</div>
 						</div>
 					</div>
@@ -132,7 +131,7 @@
 				<div class="col-md-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-						  	<h3 class="panel-title">Question and Answers</h3>
+						  	<h3 class="panel-title">{{'ABOUT_QA' | translate}}</h3>
 						</div>
 						<div class="panel-body">
 							<div data-ng-repeat="qa in help">
