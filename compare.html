@@ -3,10 +3,10 @@
 		<div class="row">	
 			<div class="col-md-4">
 				<div class="well whatsspy-header-box whatsspy-compare-panel whatsspy-compare-panel-add">
-					<h4><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> Select candidate(s)</h4>
+					<h4><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> {{'COMPARE_SELECT' | translate}}</h4>
 					<br />
 					<p>
-						<h4>Add user to comparison</h4>
+						<h4>{{'COMPARE_ADD_TO_COMPARE' | translate}}</h4>
 						<table class="table table-align-left">
 							<tbody>
 								<tr>
@@ -14,12 +14,12 @@
 										<select class="form-control" ng-model="selectUserOption" ng-options="account as account.name for account in accounts"></select>
 									</td>
 									<td class="whatsspy-compare-add">
-										<button class="btn btn-default" data-ng-click="addUserToComparison(selectUserOption)">Add</button>
+										<button class="btn btn-default" data-ng-click="addUserToComparison(selectUserOption)">{{'COMPARE_ADD' | translate}}</button>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-						<h4>Add group to comparison</h4>
+						<h4>{{'COMPARE_ADD_GROUP_COMPARE' | translate}}</h4>
 						<table class="table table-align-left">
 							<tbody>
 								<tr>
@@ -27,25 +27,25 @@
 										<select class="form-control" data-ng-model="selectGroupOption" data-ng-options="group.gid as group.name for group in groups | noGroupFilter" ></select>
 									</td>
 									<td class="whatsspy-compare-add">
-										<button class="btn btn-default" data-ng-click="addGroupToComparison(selectGroupOption)">Add</button>
+										<button class="btn btn-default" data-ng-click="addGroupToComparison(selectGroupOption)">{{'COMPARE_ADD' | translate}}</button>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 					</p>
 					<p>
-						<small>Loading large groups may cause a temporary browser freeze due to the vast amount of information.</small>
+						<small>{{'COMPARE_ADD_NOTICE' | translate}}</small>
 					</p>
 				</div>
 			</div>
 			<div class="col-md-8">
 				<div class="well whatsspy-header-box whatsspy-compare-panel">
-					<h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Current candidates in the comparison:</h4>
+					<h4><span class="glyphicon glyphicon-list" aria-hidden="true"></span> {{'COMPARE_CURR_LIST' | translate}}</h4>
 					<div class="whatsspy-scrollable-table-compare">
 						<table class="table table-striped table-align-left">
 							<thead>
 								<tr>
-									<th>Candidate / Privacy settings</th>
+									<th>{{'COMPARE_CURR_LIST_INFO' | translate}}</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -64,15 +64,15 @@
 												</span>
 												<br />
 												<br />
-												<span data-ng-show="getAccountById(accountId).lastseen_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">last seen : contacts*</span>
-												<span data-ng-show="getAccountById(accountId).lastseen_privacy == false" class="label label-success">last seen : everyone</span>
-												<span data-ng-show="getAccountById(accountId).statusmessage_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">status messages : contacts*</span>
-												<span data-ng-show="getAccountById(accountId).statusmessage_privacy == false" class="label label-success">status messages : everyone</span>
-												<span data-ng-show="getAccountById(accountId).profilepic_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger">profile pic : contacts*</span>
-												<span data-ng-show="getAccountById(accountId).profilepic_privacy == false" class="label label-success">profile pic : everyone</span>
+												<span data-ng-show="getAccountById(accountId).lastseen_privacy == true" data-ng-title="{{'COMPARE_CONTACTS_NOTICE' | translate}}" class="label label-danger">{{'COMPARE_LASTSEEN' | translate}} {{'COMPARE_CONTACTS' | translate}}</span>
+												<span data-ng-show="getAccountById(accountId).lastseen_privacy == false" class="label label-success">{{'COMPARE_LASTSEEN' | translate}} {{'COMPARE_EVERYBODY' | translate}}</span>
+												<span data-ng-show="getAccountById(accountId).statusmessage_privacy == true" data-ng-title="{{'COMPARE_CONTACTS_NOTICE' | translate}}" class="label label-danger">{{'COMPARE_STATUSMSG' | translate}} {{'COMPARE_CONTACTS' | translate}}</span>
+												<span data-ng-show="getAccountById(accountId).statusmessage_privacy == false" class="label label-success">{{'COMPARE_STATUSMSG' | translate}} {{'COMPARE_EVERYBODY' | translate}}</span>
+												<span data-ng-show="getAccountById(accountId).profilepic_privacy == true" data-ng-title="{{'COMPARE_CONTACTS_NOTICE' | translate}}" class="label label-danger">{{'COMPARE_PROFPIC' | translate}} {{'COMPARE_CONTACTS' | translate}}</span>
+												<span data-ng-show="getAccountById(accountId).profilepic_privacy == false" class="label label-success">{{'COMPARE_PROFPIC' | translate}} {{'COMPARE_EVERYBODY' | translate}}</span>
 											</div>
 											<div class="col-md-2">
-												<button type="button" data-ng-click="removeFromComparison(accountId)" class="btn btn-danger">Remove</button>
+												<button type="button" data-ng-click="removeFromComparison(accountId)" class="btn btn-danger">{{'COMPARE_REMOVE' | translate}}</button>
 											</div>
 										</div>
 									</td>
@@ -88,6 +88,6 @@
 		</div>
 	</div>
 	<div class="col-md-12" data-ng-show="accounts == null" class="compare-loading">
-		Loading account information ...
+		{{'COMPARE_LOADING' | translate}}
 	</div>
 </div>

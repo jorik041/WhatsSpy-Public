@@ -1284,26 +1284,27 @@ angular.module('whatsspyControllers', [])
 					if($scope.stats.generated == null) {
 			        	$scope.stats.generated = {};
 			    	}
-			        $scope.stats.generated.chart_weekday_status_count_all = $rootScope.setupBarChartData([{key: 'today', id: 'dow', value: 'count', data: data.weekday_status_today},
-			        																					  {key: '7 days', id: 'dow', value: 'count', data: data.weekday_status_7day},
-			                                                                                              {key: '14 days', id: 'dow', value: 'count', data: data.weekday_status_14day},
-			                                                                                              {key: 'all time', id: 'dow', value: 'count', data: data.weekday_status_all}]);
-			        $scope.stats.generated.chart_hour_status_count_all = $rootScope.setupBarChartData([{key: 'today', id: 'hour', value: 'count', data: data.hour_status_today},
-			        																				   {key: '7 days', id: 'hour', value: 'count', data: data.hour_status_7day},
-			                                                                                           {key: '14 days', id: 'hour', value: 'count', data: data.hour_status_14day},
-			                                                                                           {key: 'all time', id: 'hour', value: 'count', data: data.hour_status_all}]);
-			        $scope.stats.generated.chart_weekday_status_time_all = $rootScope.setupBarChartData([{key: 'today', id: 'dow', value: 'minutes', data: data.weekday_status_today},
-			        																					 {key: '7 days', id: 'dow', value: 'minutes', data: data.weekday_status_7day},
-			                                                                                             {key: '14 days', id: 'dow', value: 'minutes', data: data.weekday_status_14day},
-			                                                                                             {key: 'all time', id: 'dow', value: 'minutes', data: data.weekday_status_all}]);
-			        $scope.stats.generated.chart_hour_status_time_all = $rootScope.setupBarChartData([{key: 'today', id: 'hour', value: 'minutes', data: data.hour_status_today},
-			        																				  {key: '7 days', id: 'hour', value: 'minutes', data: data.hour_status_7day},
-			                                                                                          {key: '14 days', id: 'hour', value: 'minutes', data: data.hour_status_14day},
-			                                                                                          {key: 'all time', id: 'hour', value: 'minutes', data: data.hour_status_all}]);
+			    	
+			        $scope.stats.generated.chart_weekday_status_count_all = $rootScope.setupBarChartData([{key: $filter('translate')('STATS_BAR_CHART_TODAY'), id: 'dow', value: 'count', data: data.weekday_status_today},
+			        																					  {key: $filter('translate')('STATS_BAR_CHART_7DAYS'), id: 'dow', value: 'count', data: data.weekday_status_7day},
+			                                                                                              {key: $filter('translate')('STATS_BAR_CHART_14DAYS'), id: 'dow', value: 'count', data: data.weekday_status_14day},
+			                                                                                              {key: $filter('translate')('STATS_BAR_CHART_ALLTIME'), id: 'dow', value: 'count', data: data.weekday_status_all}]);
+			        $scope.stats.generated.chart_hour_status_count_all = $rootScope.setupBarChartData([{key: $filter('translate')('STATS_BAR_CHART_TODAY'), id: 'hour', value: 'count', data: data.hour_status_today},
+			        																				   {key: $filter('translate')('STATS_BAR_CHART_7DAYS'), id: 'hour', value: 'count', data: data.hour_status_7day},
+			                                                                                           {key: $filter('translate')('STATS_BAR_CHART_14DAYS'), id: 'hour', value: 'count', data: data.hour_status_14day},
+			                                                                                           {key: $filter('translate')('STATS_BAR_CHART_ALLTIME'), id: 'hour', value: 'count', data: data.hour_status_all}]);
+			        $scope.stats.generated.chart_weekday_status_time_all = $rootScope.setupBarChartData([{key: $filter('translate')('STATS_BAR_CHART_TODAY'), id: 'dow', value: 'minutes', data: data.weekday_status_today},
+			        																					 {key: $filter('translate')('STATS_BAR_CHART_7DAYS'), id: 'dow', value: 'minutes', data: data.weekday_status_7day},
+			                                                                                             {key: $filter('translate')('STATS_BAR_CHART_14DAYS'), id: 'dow', value: 'minutes', data: data.weekday_status_14day},
+			                                                                                             {key: $filter('translate')('STATS_BAR_CHART_ALLTIME'), id: 'dow', value: 'minutes', data: data.weekday_status_all}]);
+			        $scope.stats.generated.chart_hour_status_time_all = $rootScope.setupBarChartData([{key: $filter('translate')('STATS_BAR_CHART_TODAY'), id: 'hour', value: 'minutes', data: data.hour_status_today},
+			        																				  {key: $filter('translate')('STATS_BAR_CHART_7DAYS'), id: 'hour', value: 'minutes', data: data.hour_status_7day},
+			                                                                                          {key: $filter('translate')('STATS_BAR_CHART_14DAYS'), id: 'hour', value: 'minutes', data: data.hour_status_14day},
+			                                                                                          {key: $filter('translate')('STATS_BAR_CHART_ALLTIME'), id: 'hour', value: 'minutes', data: data.hour_status_all}]);
 			        // Set default view
 		        	$scope.stats.generated.showHour = false;
 		        	$scope.stats.generated.showWeekday = true;
-		        	$scope.stats.generated.showPieChart = 'today';
+		        	$scope.stats.generated.showPieChart = $filter('translate')('STATS_BAR_CHART_TODAY');
 		        }
 		    }
 

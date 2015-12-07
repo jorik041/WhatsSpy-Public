@@ -179,7 +179,7 @@
 					    				<button data-ng-disabled="stats.generated.showPieChart == 'today'" data-ng-click="stats.generated.showPieChart = 'today';" type="button" class="btn btn-info">{{'STATS_PIE_CHART_TODAY' | translate}}</button>
 					    				<button data-ng-disabled="stats.generated.showPieChart == '7days'" data-ng-click="stats.generated.showPieChart = '7days';" type="button" class="btn btn-info">{{'STATS_PIE_CHART_7DAYS' | translate}}</button>
 					    				<button data-ng-disabled="stats.generated.showPieChart == '14days'" data-ng-click="stats.generated.showPieChart = '14days';" type="button" class="btn btn-info">{{'STATS_PIE_CHART_14DAYS' | translate}}</button>
-					    				<button data-ng-disabled="stats.generated.showPieChart == 'all'" data-ng-click="stats.generated.showPieChart = 'all';" type="button" class="btn btn-info">Show {{'STATS_PIE_CHART_ALL' | translate}}</button>
+					    				<button data-ng-disabled="stats.generated.showPieChart == 'all'" data-ng-click="stats.generated.showPieChart = 'all';" type="button" class="btn btn-info">{{'STATS_PIE_CHART_ALL' | translate}}</button>
 									</div>
 								</div>
 							<div class="row">
@@ -442,7 +442,7 @@
 							<div class="row">
 								<div class="col-md-12">
 									<button data-ng-show="stats.top_usage_users.meta.count <= 20" data-ng-disabled="showTopUsers == 5" data-ng-click="showTopUsers = 5;" type="button" class="btn btn-primary">{{'STATS_TOP_H1' | translate}} 5</button> 
-									<button data-ng-disabled="showTopUsers == 10" data-ng-click="showTopUsers = 10;" type="button" class="btn btn-primary">Top 10</button> 
+									<button data-ng-disabled="showTopUsers == 10" data-ng-click="showTopUsers = 10;" type="button" class="btn btn-primary">{{'STATS_TOP_H1' | translate}} 10</button> 
 									<button data-ng-show="stats.top_usage_users.meta.count >= 20" data-ng-disabled="showTopUsers == 20" data-ng-click="showTopUsers = 20;" type="button" class="btn btn-primary">{{'STATS_TOP_H1' | translate}} 20</button> 
 									<button data-ng-show="stats.top_usage_users.meta.count >= 30" data-ng-disabled="showTopUsers == 30" data-ng-click="showTopUsers = 30;" type="button" class="btn btn-primary">{{'STATS_TOP_H1' | translate}} 30</button> 
 									<button data-ng-show="stats.top_usage_users.meta.count >= 50" data-ng-disabled="showTopUsers == 50" data-ng-click="showTopUsers = 50;" type="button" class="btn btn-primary">{{'STATS_TOP_H1' | translate}} 50</button> 
@@ -452,7 +452,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-6">
-									<h4>{{'STATS_TOP_H1' | translate}} {{showTopUsers}} {{'STATS_TOP_H3' | translate}} - {{stats.generated.top10DayChoice}}</h4>
+									<h4>{{'STATS_TOP_H1' | translate}} {{showTopUsers}} {{'STATS_TOP_H3' | translate}} - {{'STATS_TYPE_' + stats.generated.top10DayChoice | translate}}</h4>
 									<button data-ng-disabled="stats.generated.top10DayChoice == 'today'" data-ng-click="stats.generated.top10DayChoice = 'today';" type="button" class="btn btn-info">{{'STATS_TOP_TODAY' | translate}}</button>
 									<button data-ng-disabled="stats.generated.top10DayChoice == 'yesterday'" data-ng-click="stats.generated.top10DayChoice = 'yesterday';" type="button" class="btn btn-info">{{'STATS_TOP_YESTERDAY' | translate}}</button>
 									<button data-ng-disabled="stats.generated.top10DayChoice == '2days_ago'" data-ng-click="stats.generated.top10DayChoice = '2days_ago';" type="button" class="btn btn-info">2 {{'STATS_TOP_DAYS_AGO' | translate}}</button>
@@ -481,7 +481,7 @@
 									</table>
 								</div>
 								<div class="col-md-6">
-									<h4>{{'STATS_TOP_H1' | translate}} {{showTopUsers}} {{'STATS_TOP_H4' | translate}} - {{stats.generated.top10TimeChoice}}</h4>
+									<h4>{{'STATS_TOP_H1' | translate}} {{showTopUsers}} {{'STATS_TOP_H4' | translate}} - {{'STATS_TYPE_' + stats.generated.top10TimeChoice | translate}}</h4>
 									<button data-ng-disabled="stats.generated.top10TimeChoice == 'alltime'" data-ng-click="stats.generated.top10TimeChoice = 'alltime';" type="button" class="btn btn-info">{{'STATS_TOP_ALL' | translate}}</button>
 									<button data-ng-disabled="stats.generated.top10TimeChoice == '31days'" data-ng-click="stats.generated.top10TimeChoice = '31days';" type="button" class="btn btn-info">31 {{'STATS_TOP_DAYS' | translate}}</button>
 									<button data-ng-disabled="stats.generated.top10TimeChoice == '14days'" data-ng-click="stats.generated.top10TimeChoice = '14days';" type="button" class="btn btn-info">14 {{'STATS_TOP_DAYS' | translate}}</button>

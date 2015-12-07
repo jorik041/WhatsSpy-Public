@@ -1,6 +1,6 @@
 angular.module('whatsspy-translate', ['pascalprecht.translate']).
 config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.translations('en', {
+    $translateProvider.translations('en', {
     /* PLEASE NOTE that spaces etc. are all of importance here. You also must escape ' (by using \') */
     /* Use your gitlab/real name here to identify your work */
     TRANSLATOR: '',
@@ -164,6 +164,21 @@ config(['$translateProvider', function ($translateProvider) {
     OVERVIEW_PERFORMANCE_TRACKER_EXP3: 'performance impact when you (re)load a users timeline. This affects both the overview and compare page.',
     OVERVIEW_PERFORMANCE_SAVE: 'Save settings',
     OVERVIEW_PERFORMANCE_CLOSE: 'Close',
+    COMPARE_SELECT: 'Select candidate(s)',
+    COMPARE_ADD_TO_COMPARE: 'Add user to comparison',
+    COMPARE_ADD: 'Add',
+    COMPARE_ADD_GROUP_COMPARE: 'Add group to comparison',
+    COMPARE_ADD_NOTICE: 'Loading large groups may cause a temporary browser freeze due to the vast amount of information.',
+    COMPARE_CURR_LIST: 'Current candidates in the comparison:',
+    COMPARE_CURR_LIST_INFO: 'Candidate / Privacy settings',
+    COMPARE_LASTSEEN: 'last seen :',
+    COMPARE_STATUSMSG: 'status messages :',
+    COMPARE_PROFPIC: 'profile pic :',
+    COMPARE_REMOVE: 'Remove',
+    COMPARE_LOADING: 'Loading account information ...',
+    COMPARE_CONTACTS: 'contacts*',
+    COMPARE_EVERYBODY: 'everyone',
+    COMPARE_CONTACTS_NOTICE: 'This privacy setting may be contacts or nobody. This can\'t be detected.',
     STATS_TOKEN_INFO: 'You are not allowed to view this group because the token is or became invalid.',
     STATS_TOKEN_GROUP: 'Shared group profile:',
     STATS_TOKEN_GROUP_INFO: 'This is a shared statistics report of the group',
@@ -211,7 +226,7 @@ config(['$translateProvider', function ($translateProvider) {
     STATS_PIE_CHART_TODAY: 'Show today',
     STATS_PIE_CHART_7DAYS: 'Show 7 days',
     STATS_PIE_CHART_14DAYS: 'Show 14 days',
-    STATS_PIE_CHART_ALL: 'all',
+    STATS_PIE_CHART_ALL: 'Show all',
     STATS_PIE_CHART_PIE_OPEN_H_ALL: 'Opening WhatsApp - All',
     STATS_PIE_CHART_PIE_OPEN_H_7DAYS: 'Opening WhatsApp - Last 7 days',
     STATS_PIE_CHART_PIE_OPEN_H_14DAYS: 'Opening WhatsApp - Last 14 days',
@@ -228,6 +243,10 @@ config(['$translateProvider', function ($translateProvider) {
     STATS_PIE_CHART_BAR_SHOWWEEKDAY: 'Show per weekday',
     STATS_PIE_CHART_BAR_TIME_H_WEEKDAY: 'Time on WhatsApp per weekday',
     STATS_PIE_CHART_BAR_TIME_H_HOUR: 'Time on WhatsApp per hour',
+    STATS_BAR_CHART_TODAY: 'today',
+    STATS_BAR_CHART_7DAYS: '7 days',
+    STATS_BAR_CHART_14DAYS: '14 days',
+    STATS_BAR_CHART_ALLTIME: 'all time',
     STATS_TOP_H1: 'Top',
     STATS_TOP_H2: 'tracked users',
     STATS_TOP_ALL: 'Show all',
@@ -243,6 +262,16 @@ config(['$translateProvider', function ($translateProvider) {
     STATS_TOP_ALL: 'All',
     STATS_TOP_DAYS: 'days',
     STATS_TOP_HOURS: 'hours',
+    STATS_TYPE_today: 'today',
+    STATS_TYPE_yesterday: 'yesterday',
+    STATS_TYPE_2days_ago: '2 days ago',
+    STATS_TYPE_3days_ago: '3 days ago',
+    STATS_TYPE_4days_ago: '4 days ago',
+    STATS_TYPE_alltime: 'all time',
+    STATS_TYPE_31days: '31 days',
+    STATS_TYPE_14days: '14 days',
+    STATS_TYPE_7days: '7 days',
+    STATS_TYPE_24hours: '24 hours',
     TIMELINE_FILTER: 'Filters',
     TIMELINE_FILTER_PHONE_PLACEHOLDER: 'Search by phone number ...',
     TIMELINE_FILTER_NAME_PLACEHOLDER: 'Use name|name to filter on multiple names.',
@@ -381,8 +410,55 @@ config(['$translateProvider', function ($translateProvider) {
     CONTROLLER_CMD0: 'CMD: ',
     CONTROLLER_CMD1: ' resulted in code: ',
     CONTROLLER_CMD2: ' with output: '
-  });
- 
-  $translateProvider.preferredLanguage('en');
-  $translateProvider.useSanitizeValueStrategy('escape');
+    });
+    moment.locale('en', {
+        months : [
+            "January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ],
+        monthsShort : [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ],
+        weekdays : [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ],
+        weekdaysShort : [
+            "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+        ],
+        longDateFormat : {
+            LT: "h:mm A",
+            LTS: "h:mm:ss A",
+            L: "MM/DD/YYYY",
+            l: "M/D/YYYY",
+            LL: "MMMM Do YYYY",
+            ll: "MMM D YYYY",
+            LLL: "MMMM Do YYYY LT",
+            lll: "MMM D YYYY LT",
+            LLLL: "dddd, MMMM Do YYYY LT",
+            llll: "ddd, MMM D YYYY LT"
+        },
+        relativeTime : {
+            future: "in %s",
+            past:   "%s ago",
+            s:  "seconds",
+            m:  "a minute",
+            mm: "%d minutes",
+            h:  "an hour",
+            hh: "%d hours",
+            d:  "a day",
+            dd: "%d days",
+            M:  "a month",
+            MM: "%d months",
+            y:  "a year",
+            yy: "%d years"
+        }
+    });
+    $translateProvider.useSanitizeValueStrategy('escape');
+
+    // CURRENT WAY TO CHANGE THE LANGUAGE
+    var language = 'en';
+
+    $translateProvider.preferredLanguage(language);
+    moment.locale(language);
 }]);
