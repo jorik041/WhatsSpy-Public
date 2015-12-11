@@ -67,6 +67,11 @@ angular.module('whatsspy', ['ngRoute', 'ngVis', 'whatsspyFilters', 'whatsspyCont
     }
   }
 
+  $rootScope.availableLanguages = availableLanguages;
+  $rootScope.selectedLanguage = 'en';
+  if(getCookie('WSlanguage') != undefined) {
+    $rootScope.selectedLanguage = getCookie('WSlanguage');
+  }
   $rootScope.timeline = [];
   $rootScope.timelineLengthOptions = [];
   $rootScope.charTrans = [];

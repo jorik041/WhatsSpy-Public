@@ -52,6 +52,12 @@
 											<td><a href="https://gitlab.maikel.pro/maikeldus/WhatsSpy-Public/wikis/troubleshooting" target="_blank">{{'ABOUT_TROUBLE_LINK' | translate}}</a></td>
 										</tr>
 										<tr>
+											<td><strong>{{'ABOUT_LANGUAGE' | translate}}</strong></td>
+											<td>
+												<select class="form-control" ng-model="selectedLanguage" ng-options="language.id as language.name for language in availableLanguages"></select>
+											</td>
+										</tr>
+										<tr>
 											<td><strong>{{'ABOUT_OPTIONS' | translate}}</strong></td>
 											<td>
 												<button type="submit" class="btn btn-danger" data-ng-click="doLogout(true)">{{'ABOUT_OPTIONS_LOGOUT' | translate}}</button>

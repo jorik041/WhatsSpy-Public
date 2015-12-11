@@ -1337,7 +1337,7 @@ angular.module('whatsspyControllers', [])
 	// No need to call anymore, watch will do this.
 	//$scope.refreshContent();
 })
-.controller('AboutController', function($rootScope, $q, $scope, $http, $location) {
+.controller('AboutController', function($rootScope, $q, $scope, $http, $location, $translate) {
 	$scope.executeServerCmd = function(query) {
 		var deferred = $q.defer();
 		$http({method: 'GET', url: 'api/?whatsspy=' + query}).
@@ -1361,6 +1361,13 @@ angular.module('whatsspyControllers', [])
 		});
 		return deferred.promise;
 	}
+
+	$scope.$watch('selectedLanguage', function() {
+		if($scope.selectedLanguage !== $translate.use()) {
+	      	document.cookie = 'WSlanguage='+$scope.selectedLanguage+'; path=/';
+			window.location.reload();
+		}
+  	});
 })
 .controller('LoginController', function($rootScope, $q, $scope, $http, $location) {
 
