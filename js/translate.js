@@ -938,6 +938,4 @@ config(['$translateProvider', function ($translateProvider) {
         $translateProvider.preferredLanguage(language);
         moment.locale(language);
     }
-    console.log(cookieLang);
-
 }]);

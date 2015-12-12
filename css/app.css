@@ -455,26 +455,26 @@ header {
   *  Comparison timeline classes
   */
 
-.vis.timeline .item0 {
+.vis-item.item0 {
 
 }
 
-.vis.timeline .item1 {
+.vis-item.item1 {
   background-color: #90A437 !important;
   border-color: #435200 !important;
 }
 
-.vis.timeline .item2 {
+.vis-item.item2 {
   background-color: #D46F6A !important;
   border-color: #801A15 !important;
 }
 
-.vis.timeline .item3 {
+.vis-item.item3 {
   background-color: #7F7CB0 !important;
   border-color: #1A1A59 !important;
 }
 
-.vis.timeline .item4 {
+.vis-item.item4 {
   background-color: #9C4E89 !important;
   border-color: #3F002F !important;
 }
