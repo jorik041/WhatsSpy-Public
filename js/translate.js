@@ -1851,11 +1851,11 @@ config(['$translateProvider', function ($translateProvider) {
         }, 
         {
             id: 'de',
-            name: 'German (creator: Robin Kluth)'
+            name: 'German (translator: Robin Kluth)'
         },
         {
             id:'es', 
-            name: 'Spanish (creator: Javier Andres Tolosa Rivera)'
+            name: 'Spanish (translator: Javier Andres Tolosa Rivera)'
         }];
     // Check if cookie exist, otherwise choose english.
     var cookieLang = getCookie('WSlanguage');
