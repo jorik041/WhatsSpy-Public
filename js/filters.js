@@ -134,12 +134,12 @@ angular.module('whatsspyFilters', [])
 		return realGroups;
 	};
 })
-.filter('privacy', function () {
+.filter('privacy', function (translateFilter) {
 	return function (value) {
 		if(value == false) {
-			return '\'everyone\'';
+			return '\'' + translateFilter('PRIVACY_STATUS_EVERYONE') + '\'';
 		} else {
-			return '\'contacts or nobody\'';
+			return '\'' + translateFilter('PRIVACY_STATUS_CONTACTS_OR_NOBODY') + '\'';
 		}
 	};
 })

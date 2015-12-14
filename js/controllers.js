@@ -288,7 +288,7 @@ angular.module('whatsspyControllers', [])
 
 
 	// Timeline setup
-	// Angular-vis.js - This needs to be cleaned
+	// Angular-vis.js
 	var graph2d;
 
 
@@ -1304,7 +1304,7 @@ angular.module('whatsspyControllers', [])
 			        // Set default view
 		        	$scope.stats.generated.showHour = false;
 		        	$scope.stats.generated.showWeekday = true;
-		        	$scope.stats.generated.showPieChart = $filter('translate')('STATS_BAR_CHART_TODAY');
+		        	$scope.stats.generated.showPieChart = 'today';
 		        }
 		    }
 

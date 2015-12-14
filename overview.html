@@ -163,23 +163,23 @@
 													      <tbody>
 													        <tr>
 													          <th class="whatsspy-analytics-th-big">{{'OVERVIEW_CONTACT_TABLE_1D' | translate}} </th>
-													          <td>{{accountData[number.id].user.count_1day}} times</td>
+													          <td>{{accountData[number.id].user.count_1day}} {{'OVERVIEW_CONTACT_TIMES' | translate}}</td>
 													        </tr>
 													        <tr>
 													          <th>{{'OVERVIEW_CONTACT_TABLE_7D' | translate}} </th>
-													          <td>{{accountData[number.id].user.count_7day}} times</td>
+													          <td>{{accountData[number.id].user.count_7day}} {{'OVERVIEW_CONTACT_TIMES' | translate}}</td>
 													        </tr>
 													        <tr>
 													          <th>{{'OVERVIEW_CONTACT_TABLE_14D' | translate}} </th>
-													          <td>{{accountData[number.id].user.count_14day}} times</td>
+													          <td>{{accountData[number.id].user.count_14day}} {{'OVERVIEW_CONTACT_TIMES' | translate}}</td>
 													        </tr>
 													        <tr>
 													          <th>{{'OVERVIEW_CONTACT_TABLE_31D' | translate}} </th>
-													          <td>{{accountData[number.id].user.count_31day}} times</td>
+													          <td>{{accountData[number.id].user.count_31day}} {{'OVERVIEW_CONTACT_TIMES' | translate}}</td>
 													        </tr>
 													        <tr>
 													          <th>{{'OVERVIEW_CONTACT_TABLE_xD' | translate}} </th>
-													          <td>{{accountData[number.id].user.count_all}} times</td>
+													          <td>{{accountData[number.id].user.count_all}} {{'OVERVIEW_CONTACT_TIMES' | translate}}</td>
 													        </tr>
 													      </tbody>
 													    </table>
@@ -376,7 +376,7 @@
 										          	<span data-ng-show="number.statusmessage_privacy == true" title="This privacy setting may be contacts or nobody. This can't be detected." class="label label-danger label-full-width">{{'OVERVIEW_PRIVACY_SETTINGS_FRIENDS' | translate}}</span>
 													<span data-ng-show="number.statusmessage_privacy == false" class="label label-success label-full-width">{{'OVERVIEW_PRIVACY_SETTINGS_PUBLIC' | translate}}</span>
 
-													<small><span data-ng-show="accountData[number.id].user.statusmessage_changed_privacy != null">{{'OVERVIEW_PRIVACY_LAST_CHANGE' | translate}} <strong>{{accountData[number.id].user.statusmessage_changed_privacy | privacy}}</strong><br /> at {{accountData[number.id].user.statusmessage_changed_privacy_updated | staticDatetime}}*</span></small>
+													<small><span data-ng-show="accountData[number.id].user.statusmessage_changed_privacy != null">{{'OVERVIEW_PRIVACY_LAST_CHANGE' | translate}} <strong>{{accountData[number.id].user.statusmessage_changed_privacy | privacy}}</strong><br /> {{'OVERVIEW_PRIVACY_LAST_CHANGE_AT' | translate}} {{accountData[number.id].user.statusmessage_changed_privacy_updated | staticDatetime}}*</span></small>
 												</td>
 										        </tr>
 										      </tbody>
