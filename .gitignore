@@ -2,4 +2,5 @@
 *.dat
 *.log
 *.lock
+*.db
 config.php
