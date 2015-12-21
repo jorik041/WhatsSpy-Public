@@ -1364,7 +1364,12 @@ angular.module('whatsspyControllers', [])
 
 	$scope.$watch('selectedLanguage', function() {
 		if($scope.selectedLanguage !== $translate.use()) {
-	      	document.cookie = 'WSlanguage='+$scope.selectedLanguage+'; path=/';
+		    var now = new Date();
+		    var time = now.getTime();
+		    var wsCookieExpire = time + 2592000000; // 300 days, just like the PHPSESSID
+		    now.setTime(wsCookieExpire);
+		    
+	      	document.cookie = 'WSlanguage='+$scope.selectedLanguage+';expires='+now.toGMTString()+';path=/';
 			window.location.reload();
 		}
   	});
