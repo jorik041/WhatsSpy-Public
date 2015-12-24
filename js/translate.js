@@ -1230,7 +1230,7 @@ config(['$translateProvider', function ($translateProvider) {
     TIMELINE_ACTIVITY_PRIV_LASTSEEN: 'Zuletzt Online',
     TIMELINE_ACTIVITY_PRIV_SETTO: 'ist jetzt gesetzt auf',
     TIMELINE_ACTIVITY_PRIV_CONTACTS: 'Kontakte*',
-    TIMELINE_ACTIVITY_PRIV_EVERYONE: 'Niemand',
+    TIMELINE_ACTIVITY_PRIV_EVERYONE: 'Jeder',
     TIMELINE_ACTIVITY_PRIV_CONTACTSTITLE: 'Diese Option kann Kontakte oder Niemand sein. Das kann nicht erkannt werden.',
     TIMELINE_ACTIVITY_PRIV_PROFPIC: 'Profilbild',
     TIMELINE_ACTIVITY_PRIV_STATUSMSG: 'Statusnachricht',
