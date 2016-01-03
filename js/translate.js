@@ -40,7 +40,7 @@ config(['$translateProvider', function ($translateProvider) {
     TOKEN_INVALID: 'Invalid token:',
     OVERVIEW_TOKEN_INVALID: 'You are not allowed to view this user because the token is or became invalid.',
     OVERVIEW_TOKEN_INFO_STRONG: 'Shared user profile:',
-    OVERVIEW_TOKEN_INFO: 'This is a shared user profile created by the hoster of this WhatsSpy Public instance. The timeline contains just a snapshot of the last statusess.',
+    OVERVIEW_TOKEN_INFO: 'This is a shared user profile created by the hoster of this WhatsSpy Public instance. The timeline contains just a snapshot of the last statuses.',
     OVERVIEW_FILTERS: 'Filters',
     OVERVIEW_FILTER_PHONE: 'Search by phone number ...',
     OVERVIEW_FILTER_NAME_TITLE: 'Use name|name to filter on multiple names.',
