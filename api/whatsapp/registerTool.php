@@ -1,5 +1,5 @@
 <?php
-require_once 'src_register/Registration.php';
+require_once 'src/Registration.php';
 $debug = true;
 echo "####################\n";
 echo "#                  #\n";
