@@ -388,7 +388,13 @@ function onSyncResultNumberCheck($result) {
 }
 
 function onGetError($mynumber, $from, $id, $data, $errorType = null) {
-	global $DBH, $wa, $pollCount, $whatsspyNotificatons;
+	global $DBH, $wa, $pollCount, $whatsspyNotificatons, $whatsappAuth;
+	// Fix unassigned type for pictures
+	if((strlen($errorType) == 0) &&
+		($data->getAttribute("code") == '401' || $data->getAttribute("code") == '404')) {
+		$errorType = 'getprofilepic';
+	}
+
 	if ($errorType == 'getlastseen') {
         handleLastSeenPrivacyChange($from, true);
     } else if ($errorType == 'getprofilepic') {
@@ -417,7 +423,18 @@ function onGetError($mynumber, $from, $id, $data, $errorType = null) {
         	tracker_log('  -[profile-pic] unknown error for '.$number.'. ');
         	print_r($data);
         }
+    } else if ($errorType == 'privacy') {
+    	if($from == $whatsappAuth['number'].'@s.whatsapp.net') {
+    		// Do not care.
+    	} else {
+    		tracker_log('Unknown privacy error back from WhatsApp:');
+	    	tracker_log('ID:'.$id.', from:'.$from.', type:'.$errorType);
+	    	print_r($data);
+    	}
     } else {
+
+
+
     	tracker_log('Unknown error back from WhatsApp:');
     	tracker_log('ID:'.$id.', from:'.$from.', type:'.$errorType);
     	print_r($data);

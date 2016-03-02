@@ -1,4 +1,5 @@
 <?php
+
 require 'exception.php';
 
 class IncompleteMessageException extends CustomException
@@ -30,19 +31,21 @@ class ProtocolNode
     private static $cli = null;
 
     /**
-     * check if call is from command line
+     * check if call is from command line.
+     *
      * @return bool
      */
     private static function isCli()
     {
         if (self::$cli === null) {
             //initial setter
-            if (php_sapi_name() == "cli") {
+            if (php_sapi_name() == 'cli') {
                 self::$cli = true;
             } else {
                 self::$cli = false;
             }
         }
+
         return self::$cli;
     }
 
@@ -78,62 +81,111 @@ class ProtocolNode
         return $this->children;
     }
 
+    /**
+     * @param ProtocolNode $node
+     */
+    public function addChild(ProtocolNode $node)
+    {
+        $this->children[] = $node;
+    }
+
+    /**
+     * @param ProtocolNode $node
+     */
+    public function removeChild($tag, $attrs = [])
+    {
+        if ($this->children) {
+            if (is_int($tag)) {
+                if (isset($this->children[$tag])) {
+                    array_slice($this->children, $tag, 1);
+                }
+            } else {
+                foreach ($this->children as $i => $child) {
+                    $index = -1;
+                    if (strcmp($child->tag, $tag) == 0) {
+                        $index = $i;
+                        foreach ($attrs as $key => $val) {
+                            if (strcmp($child->getAttribute($key), $val) != 0) {
+                                $index = -1; // attrs not equal
+                    break;
+                            }
+                        }
+                    }
+                    if ($index != -1) {
+                        array_slice($this->children, $index, 1);
+
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
     public function __construct($tag, $attributeHash, $children, $data)
     {
-        $this->tag           = $tag;
+        $this->tag = $tag;
         $this->attributeHash = $attributeHash;
-        $this->children      = $children;
-        $this->data          = $data;
+        $this->children = $children;
+        $this->data = $data;
     }
 
     /**
      * @param string $indent
      * @param bool   $isChild
+     *
      * @return string
      */
-    public function nodeString($indent = "", $isChild = false)
+    public function nodeString($indent = '', $isChild = false)
     {
+        // non printable characters regex
+        $nonPrintable = '#[^\x20-\x7E]#';
+
         //formatters
-        $lt = "<";
-        $gt = ">";
+        $lt = '<';
+        $gt = '>';
         $nl = "\n";
-        if ( ! self::isCli()) {
-            $lt     = "&lt;";
-            $gt     = "&gt;";
-            $nl     = "<br />";
-            $indent = str_replace(" ", "&nbsp;", $indent);
+        if (!self::isCli()) {
+            $lt = '&lt;';
+            $gt = '&gt;';
+            $nl = '<br />';
+            $indent = str_replace(' ', '&nbsp;', $indent);
         }
 
-        $ret = $indent . $lt . $this->tag;
+        $ret = $indent.$lt.$this->tag;
         if ($this->attributeHash != null) {
             foreach ($this->attributeHash as $key => $value) {
-                $ret .= " " . $key . "=\"" . $value . "\"";
+                $ret .= ' '.$key.'="'.$value.'"';
             }
         }
         $ret .= $gt;
         if (strlen($this->data) > 0) {
             if (strlen($this->data) <= 1024) {
                 //message
-                $ret .= $this->data;
+                if (preg_match($nonPrintable, $this->data)) {
+                    $ret .= bin2hex($this->data);
+                }
+                else {
+                    $ret .= $this->data;
+                }
             } else {
                 //raw data
-                $ret .= " " . strlen($this->data) . " byte data";
+                $ret .= ' '.strlen($this->data).' byte data';
             }
         }
         if ($this->children) {
             $ret .= $nl;
-            $foo = array();
+            $foo = [];
             foreach ($this->children as $child) {
-                $foo[] = $child->nodeString($indent . "  ", true);
+                $foo[] = $child->nodeString($indent.'  ', true);
             }
             $ret .= implode($nl, $foo);
-            $ret .= $nl . $indent;
+            $ret .= $nl.$indent;
         }
-        $ret .= $lt . "/" . $this->tag . $gt;
+        $ret .= $lt.'/'.$this->tag.$gt;
 
-        if ( ! $isChild) {
+        if (!$isChild) {
             $ret .= $nl;
-            if ( ! self::isCli()) {
+            if (!self::isCli()) {
                 $ret .= $nl;
             }
         }
@@ -143,11 +195,12 @@ class ProtocolNode
 
     /**
      * @param $attribute
+     *
      * @return string
      */
     public function getAttribute($attribute)
     {
-        $ret = "";
+        $ret = '';
         if (isset($this->attributeHash[$attribute])) {
             $ret = $this->attributeHash[$attribute];
         }
@@ -157,19 +210,23 @@ class ProtocolNode
 
     /**
      * @param string $needle
-     * @return boolean
+     *
+     * @return bool
      */
     public function nodeIdContains($needle)
     {
-        return (strpos($this->getAttribute("id"), $needle) !== false);
+        return strpos($this->getAttribute('id'), $needle) !== false;
     }
 
     //get children supports string tag or int index
+
     /**
      * @param $tag
+     * @param array $attrs
+     *
      * @return ProtocolNode
      */
-    public function getChild($tag)
+    public function getChild($tag, $attrs = [])
     {
         $ret = null;
         if ($this->children) {
@@ -177,25 +234,35 @@ class ProtocolNode
                 if (isset($this->children[$tag])) {
                     return $this->children[$tag];
                 } else {
-                    return null;
+                    return;
                 }
             }
             foreach ($this->children as $child) {
                 if (strcmp($child->tag, $tag) == 0) {
-                    return $child;
+                    $found = true;
+                    foreach ($attrs as $key => $value) {
+                        if (strcmp($child->getAttribute($key), $value) != 0) {
+                            $found = false;
+                            break;
+                        }
+                    }
+                    if ($found) {
+                        return $child;
+                    }
                 }
-                $ret = $child->getChild($tag);
+                $ret = $child->getChild($tag, $attrs);
                 if ($ret) {
                     return $ret;
                 }
             }
         }
 
-        return null;
+        return;
     }
 
     /**
      * @param $tag
+     *
      * @return bool
      */
     public function hasChild($tag)
@@ -209,9 +276,9 @@ class ProtocolNode
     public function refreshTimes($offset = 0)
     {
         if (isset($this->attributeHash['id'])) {
-            $id                        = $this->attributeHash['id'];
-            $parts                     = explode('-', $id);
-            $parts[0]                  = time() + $offset;
+            $id = $this->attributeHash['id'];
+            $parts = explode('-', $id);
+            $parts[0] = time() + $offset;
             $this->attributeHash['id'] = implode('-', $parts);
         }
         if (isset($this->attributeHash['t'])) {
@@ -220,18 +287,18 @@ class ProtocolNode
     }
 
     /**
-     * Print human readable ProtocolNode object
+     * Print human readable ProtocolNode object.
      *
      * @return string
      */
     public function __toString()
     {
-        $readableNode = array(
+        $readableNode = [
             'tag'           => $this->tag,
             'attributeHash' => $this->attributeHash,
             'children'      => $this->children,
-            'data'          => $this->data
-        );
+            'data'          => $this->data,
+        ];
 
         return print_r($readableNode, true);
     }

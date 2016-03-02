@@ -60,7 +60,7 @@ $whatsspyNotificatons = [// NotifyMyAndroid (notifymyandroid.com)
 								   	 "notify-user" 		=> false],	
 						 // WhatsApp phonenumber
 						 "wa" =>  	["enabled" 			=> false,	
-								   	 "key" 				=> "",		// Enter <countrycode><phonenumber> here without prefix 0"s and no special chars.
+								   	 "key" 				=> "",		// Enter <countrycode><phonenumber> here without prefix 0"s and no special chars. To this number notifications will be sent (about the tracked number).
 								   	 "name" 			=> "WhatsApp",
 								   	 "notify-user" 		=> true],
 						 // Script call		   
