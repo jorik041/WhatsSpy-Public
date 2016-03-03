@@ -711,7 +711,9 @@ do {
 	} catch (Exception $e) {
 		try {
 			// Kill the connection
-			$wa->disconnect();
+			if(is_object($wa)) {
+				$wa->disconnect();
+			}
 		} catch(Exception $e) {
 			// Connection closed, nevermind
 		}
