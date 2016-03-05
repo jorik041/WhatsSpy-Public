@@ -470,7 +470,7 @@ class WhatsProt
                 'type' => 'retry',
                 't'    => $t,
             ], [$retryNode, $registrationNode], null);
-	    if(!isset($this->retryCounters[$id])) $this->retryCounters[$id] = 0;
+      if(!isset($this->retryCounters[$id])) $this->retryCounters[$id] = 0;
             $this->retryCounters[$id]++;
         }
         $this->sendNode($node);
@@ -1634,7 +1634,7 @@ class WhatsProt
     }
 
     /*
-     *	Removes the profile photo.
+     *  Removes the profile photo.
      */
 
     public function sendRemoveProfilePicture()
@@ -2749,19 +2749,17 @@ class WhatsProt
     {
         if ($this->isConnected()) {
             if (socket_write($this->socket, $data, strlen($data)) === false) {
-                $this->eventManager()->fire('onClose',
-                   [
-                        $this->phoneNumber,
-                        'Connection closed!',
-                    ]
-              );
+                $this->disconnect();
+                throw new ConnectionException('Connection Closed!'
+                );
             }
         }
     }
 
+
     /**
-     * Send the getGroupList request to WhatsApp.
-     *
+        }     * Send the getGroupList request to WhatsApp.
+    }     *
      * @param string $type Type of list of groups to retrieve. "owning" or "participating"
      */
     protected function sendGetGroupsFiltered($type)
