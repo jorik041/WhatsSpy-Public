@@ -3,4 +3,5 @@
 *.log
 *.lock
 *.db
+*~
 config.php
