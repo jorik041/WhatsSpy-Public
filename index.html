@@ -105,7 +105,7 @@
                             <span data-ng-cloak data-ng-show="trackerStatus() == 'online'" class="label label-success">{{'MENU_TRACKER_ONLINE' | translate}}</span>
                             <span data-ng-cloak data-ng-show="trackerStatus() == 'offline'" class="label label-danger">{{'MENU_TRACKER_OFFLINE' | translate}}</span>
                             <span data-ng-cloak data-ng-show="trackerStatus() == 'unknown'" class="label label-default">{{'MENU_TRACKER_NOAUTH' | translate}}</span>
-                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'"class="label label-info">{{accounts.length}} {{'MENU_TRACKER_USERS' | translate}}</span>
+                            <span data-ng-cloak data-ng-show="trackerStatus() == 'online'" class="label label-info">{{accounts.length}} {{'MENU_TRACKER_USERS' | translate}}</span>
                             <span data-ng-show="trackerStatus() != 'unknown'" data-ng-click="refreshContent()" data-ng-cloak class="label label-default whatsspy-data-management" data-toggle="tooltip" data-placement="bottom" data-ng-attr-title="{{'MENU_TRACKER_REFRESH' | translate}}"><span am-time-ago="loadedTime"></span></span>
                         </div>
                     </div>
