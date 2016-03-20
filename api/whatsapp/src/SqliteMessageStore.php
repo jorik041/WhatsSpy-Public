@@ -11,9 +11,13 @@ class SqliteMessageStore implements MessageStoreInterface
 
     private $db;
 
-    public function __construct($number)
+    public function __construct($number, $customPath = null)
     {
         $fileName = __DIR__.DIRECTORY_SEPARATOR.self::DATA_FOLDER.DIRECTORY_SEPARATOR.'msgstore-'.$number.'.db';
+        if ($customPath) {
+            $fileName = $customPath.'msgstore-'.$number.'.db';
+        }
+        
         $createTable = !file_exists($fileName);
 
         $this->db = new \PDO('sqlite:'.$fileName, null, null, [PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);

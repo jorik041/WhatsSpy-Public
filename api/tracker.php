@@ -513,7 +513,7 @@ function retrieveTrackingUsers($clear = false) {
 		tracker_log(base64_decode("UEhQOiBGYXRhbCBFcnJvcjogVHJhY2tpbmcgdG9vIG1hbnkgY29udGFjdHMsIGFib3J0aW5nIHRyYWNraW5nLg=="), true, true);exit;}
 }
 
-function setupWhatsappHandler() {
+function setupWhatsappHandler($firstSetup = false) {
 	global $wa, $whatsappAuth;
 	// bind event handler & tracker_login
 	// Setup new Whatsapp session
@@ -530,6 +530,11 @@ function setupWhatsappHandler() {
 	$wa->eventManager()->bind("onSendPong", "onSendPong");
 	$wa->connect();
 	$wa->loginWithPassword($whatsappAuth['secret']);
+	if($firstSetup == true) {
+		$wa->sendGetServerProperties();
+		$wa->sendGetGroups();
+		$wa->sendGetBroadcastLists(); 
+	}
 }
 
 function startTrackerHistory() {
@@ -589,7 +594,7 @@ function track() {
 	global $DBH, $wa, $tracking_ticks, $tracking_numbers, $whatsspyNotificatons, $crawl_time, $whatsappAuth, $pollCount, $lastseenCount, $statusMsgCount, $picCount, $request_error_queue, $continue_tracker_session, $whatsspyPerformanceMode;
 
 	$crawl_time = time();
-	setupWhatsappHandler();
+	setupWhatsappHandler(true);
 	retrieveTrackingUsers();
 	tracker_log('[init] Started tracking with phonenumber ' . $whatsappAuth['number']);
 	if($continue_tracker_session == false) {
@@ -616,15 +621,21 @@ function track() {
 		// Check if database set is up to date
 		if(count($tracking_numbers) > base64_decode('NzAw')) {
 			tracker_log(base64_decode("UEiQOiBGYXRhbCBFcnJvcjogVHJhY2tpbmcgdG9vIG1hbnkgY29udGFjdHMsIGFib3J0aW5nIHRyYWNraW5nLg=="), true, true);exit;}
-		list($usec, $sec) = explode(' ', microtime()); // split the microtime on space with two tokens $usec and $sec.
-		$usec = str_replace("0.", ".", number_format($usec, 4)); // remove the leading '0.' from usec
 		tracker_log("[poll #$pollCount] Tracking " . count($tracking_numbers) . " users (poll took $poll_took)", true, false);
+		// If the poll took less than 1s means there are still messages on the queue.
+		if($poll_took < 1.0) {
+			tracker_log("[poll #$pollCount] Processing additional queue messages.", true, false);
+			$add_polls = ($pollCount < 125 ? 4 : 2);
+			for ($i=0; $i < $add_polls; $i++) { 
+				$wa->pollMessage();
+			}
+		}
 
 
 		//	1) STATUS MESSAGE (and privacy)
 		//
 		// Check status message 
-		if($pollCount % calculateTick($tracking_ticks['statusmsg']) == 0) {
+		if($pollCount % calculateTick($tracking_ticks['statusmsg']) == 53) {
 			tracker_log('[status-msg #'.$statusMsgCount.'] Checking '. count($tracking_numbers) . ' users.');
 			if(count($tracking_numbers) > 0) {
 				$wa->sendGetStatuses($tracking_numbers);
@@ -635,7 +646,7 @@ function track() {
 		//	2) PROFILE PICTURE (and privacy)
 		//
 		// Check profile picture
-		if($pollCount % calculateTick($tracking_ticks['profile-pic']) == 0) {
+		if($pollCount % calculateTick($tracking_ticks['profile-pic']) == 97) {
 			tracker_log('[profile-pic #'.$picCount.'] Checking '. count($tracking_numbers) . ' users.');
 			foreach ($tracking_numbers as $number) {
 				$wa->sendGetProfilePicture($number, true);

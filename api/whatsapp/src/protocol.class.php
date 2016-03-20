@@ -163,8 +163,7 @@ class ProtocolNode
                 //message
                 if (preg_match($nonPrintable, $this->data)) {
                     $ret .= bin2hex($this->data);
-                }
-                else {
+                } else {
                     $ret .= $this->data;
                 }
             } else {
@@ -256,8 +255,6 @@ class ProtocolNode
                 }
             }
         }
-
-        return;
     }
 
     /**
