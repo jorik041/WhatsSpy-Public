@@ -483,12 +483,12 @@ function resetSocket() {
 	global $wa, $tracking_numbers;
 	// End any running record where an user is online
 	tracker_log('[refresh] Resetting socket to ensure a working connection.');
-	// Update token
-	updateTokenData();
 	// Kill current conecction and login.
 	$wa -> disconnect();
 	$wa = null;
 	$tracking_numbers = [];
+	// Update token
+	updateTokenData();
 	setupWhatsappHandler();
 }
 
