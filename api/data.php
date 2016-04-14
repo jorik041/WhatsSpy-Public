@@ -38,7 +38,7 @@ $tracking_ticks = ['statusmsg' 		=> 60*60*2,			// Every 2 hours
 			       'profile-pic' 	=> 60*60*4,			// Every 4 hours
 			       'refresh-db' 	=> 60*60*1,			// Every hour (cannot be lower than 81 seconds)
 			       'verify-check' 	=> 60*5,			// Every 5 minutes
-			       'reset-socket' 	=> 60*60*39,		// Every 39 hours  (cannot be lower than 40 seconds)
+			       'reset-socket' 	=> 60*60*28,		// Every 28 hours  (cannot be lower than 40 seconds)
 			       'keep-alive' 	=> 60*3+8];			// Every 188 seconds
 
 ?>
