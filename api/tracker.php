@@ -387,6 +387,10 @@ function onSyncResultNumberCheck($result) {
 	}
 }
 
+function onGetMessage($mynumber, $from, $id, $type, $time, $name, $body) {
+	tracker_log('[message] Message from '.$name.' ('.$from.'): \n'.$body.'\n\n');
+}
+
 function onGetError($mynumber, $from, $id, $data, $errorType = null) {
 	global $DBH, $wa, $pollCount, $whatsspyNotificatons, $whatsappAuth;
 	// Fix unassigned type for pictures
@@ -526,6 +530,7 @@ function setupWhatsappHandler($firstSetup = false) {
 	$wa->eventManager()->bind("onGetStatus", "onGetStatus");
 	$wa->eventManager()->bind('onGetSyncResult', 'onSyncResultNumberCheck');
 	$wa->eventManager()->bind("onGetProfilePicture", "onGetProfilePicture");
+	$wa->eventManager()->bind("onGetMessage", "onGetMessage");
 	$wa->eventManager()->bind("onPing", "onPing");
 	$wa->eventManager()->bind("onSendPong", "onSendPong");
 	$wa->connect();

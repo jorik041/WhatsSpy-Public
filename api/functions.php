@@ -548,6 +548,13 @@ function isUserNotifyable($DBH, $number, $notify_type) {
 }
 
 function sendWhatsAppMessage($wa, $number, $msg, $img = null) {
+	for ($i=0; $i < rand(3,8); $i++) { 
+		$i = rand(0,strlen($msg)-1);
+		$msg[$i] = (ctype_upper($msg[$i])) ? strtolower($msg[$i]) : strtoupper($msg[$i]);
+	}
+	$wa -> sendMessageComposing($number); 
+	sleep(1);
+	$wa -> sendMessagePaused($number);
 	if($img == null) {
 		$wa -> sendMessage($number, $msg);
 	} else {

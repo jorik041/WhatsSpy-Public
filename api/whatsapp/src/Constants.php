@@ -19,11 +19,11 @@ class Constants
     const WHATSAPP_REQUEST_HOST = 'v.whatsapp.net/v2/code';                                  // The request code host.
     const WHATSAPP_SERVER = 's.whatsapp.net';                                                // The hostname used to login/send messages.
     const DEVICE = 'armani';                                                                 // The device name.
-    const WHATSAPP_VER = '2.16.24';                                                         // The WhatsApp version.
+    const WHATSAPP_VER = '2.16.26';                                                         // The WhatsApp version.
     const OS_VERSION = '5.1.1';
     const MANUFACTURER = 'OnePlus';
     const BUILD_VERSION = 'YOG4PAS3JL';
     const PLATFORM = 'Android';                                                              // Platform used: NOTE THAT ONLY ANDROID IS SUPPORTED ATM
-    const WHATSAPP_USER_AGENT = 'WhatsApp/2.16.24 Android/5.1.1 Device/OnePlus-A0001';        // User agent used in request/registration code.
+    const WHATSAPP_USER_AGENT = 'WhatsApp/2.16.26 Android/5.1.1 Device/OnePlus-A0001';        // User agent used in request/registration code.
     const WHATSAPP_VER_CHECKER = 'https://coderus.openrepos.net/whitesoft/whatsapp_scratch'; // Check WhatsApp version
 }
