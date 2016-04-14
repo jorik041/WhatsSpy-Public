@@ -623,5 +623,51 @@ function sendCustomScriptMessage($cmd, $type, $data, $user = null) {
 }
 
 
+function updateTokenData($restart = true) {
+	$WAData = json_decode(file_get_contents(Constants::WHATSAPP_VER_CHECKER), true);
+    $WAver = $WAData['d'];
+    $WAtok = $WAData['a'];
+    if(preg_match("/^([0-9\.]+)$/", $WAver) &&
+       preg_match("/^([a-zA-Z0-9+\/]+={0,2})$/", $WAtok)) {
+	    if (Constants::WHATSAPP_VER != $WAver) {
+	    	tracker_log('[update] Updating token, please wait.');
+	        updateConstantsFile($WAver);
+	        updateTokenFile($WAtok);
+	        // Restart
+	        if($restart) {
+	        	global $argv;
+		        $_ = $_SERVER['_'];
+		        pcntl_exec($_, $argv);
+		        die;
+		    }
+	    }
+	}
+}
+
+function updateConstantsFile($WAver) {
+	$file = './whatsapp/src/Constants.php';
+    $open = fopen($file, 'r+');
+    $content = fread($open, filesize($file));
+    fclose($open);
+
+    $content = str_replace(Constants::WHATSAPP_VER, $WAver, $content);
+
+    file_put_contents($file, $content);
+    tracker_log('[file update] Constants.php updated with new WA version.');
+}
+
+function updateTokenFile($WAtok) {
+	$file = './whatsapp/src/token.php';
+    $open = fopen($file, 'r+');
+    $content = fread($open, filesize($file));
+    fclose($open);
+
+    $content = preg_replace('/\$classesMd5 \= \'([a-zA-Z0-9+\/]+={0,2})\';/', '\$classesMd5 = \''.$WAtok.'\';', $content);
+
+    file_put_contents($file, $content);
+    tracker_log('[file update] token.php updated with new md5 sum of client classes.');
+}
+
+
 
 ?>

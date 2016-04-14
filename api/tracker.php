@@ -484,7 +484,7 @@ function resetSocket() {
 	// End any running record where an user is online
 	tracker_log('[refresh] Resetting socket to ensure a working connection.');
 	// Update token
-
+	updateTokenData();
 	// Kill current conecction and login.
 	$wa -> disconnect();
 	$wa = null;
@@ -719,6 +719,8 @@ do {
 	}
 	// Upgrade DB if it's old
 	checkDBMigration($DBH);
+	// Update tokens if outdated
+	updateTokenData();
 	// Nag about config.php if it's old
 	checkConfig();
 	try {
