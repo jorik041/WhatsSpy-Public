@@ -645,7 +645,7 @@ function updateTokenData($restart = true) {
 }
 
 function updateConstantsFile($WAver) {
-	$file = './whatsapp/src/Constants.php';
+	$file = realpath(dirname(__FILE__)) . '/whatsapp/src/Constants.php';
     $open = fopen($file, 'r+');
     $content = fread($open, filesize($file));
     fclose($open);
@@ -657,7 +657,7 @@ function updateConstantsFile($WAver) {
 }
 
 function updateTokenFile($WAtok) {
-	$file = './whatsapp/src/token.php';
+	$file = realpath(dirname(__FILE__)) . '/whatsapp/src/token.php';
     $open = fopen($file, 'r+');
     $content = fread($open, filesize($file));
     fclose($open);
