@@ -488,7 +488,7 @@ function resetSocket() {
 	$wa = null;
 	$tracking_numbers = [];
 	// Update token
-	updateTokenData();
+	//updateTokenData();
 	setupWhatsappHandler();
 }
 
@@ -720,7 +720,7 @@ do {
 	// Upgrade DB if it's old
 	checkDBMigration($DBH);
 	// Update tokens if outdated
-	updateTokenData();
+	//updateTokenData();
 	// Nag about config.php if it's old
 	checkConfig();
 	try {
